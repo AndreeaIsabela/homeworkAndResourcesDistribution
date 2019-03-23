@@ -3,14 +3,14 @@ const studentRoutes:any =  Router();
 import  {StudentController} from "../controllers/student";
 import { StudentModel as StudentModel } from "../models/student";
 
-const jwtService = require('../middleware/authentificationMiddleware');
+const jwtService = require('../middleware/authenticationMiddleware');
 
 // injecting the student model in the controller instance
 const studentController = new StudentController(StudentModel);
 
 studentRoutes.post('/login', async (req, res) => {
   try {
-    const student = await studentController.getStudent();
+    const student = await studentController.getStudent(req.body.email);
 
     if (student.comparePassword(req.body.password) === true) {
       const studentJson = student.toJSON();
@@ -28,7 +28,7 @@ studentRoutes.post('/login', async (req, res) => {
   }
 });
 
-studentRoutes.get('/', async (req, res) => {
+studentRoutes.get('/', jwtService.studentAuthentication, async (req, res) => {
   try {
     const students = await studentController.getStudents();
     res.json(students);
@@ -37,7 +37,7 @@ studentRoutes.get('/', async (req, res) => {
   }
 });
 
-studentRoutes.get('/:id', jwtService.authentication, async (req, res) => {
+studentRoutes.get('/:id', jwtService.studentAuthentication, async (req, res) => {
   try {
     const student = await studentController.getStudentById(req.params.id);
     res.json(student);
@@ -48,9 +48,8 @@ studentRoutes.get('/:id', jwtService.authentication, async (req, res) => {
   }
 });
 
-studentRoutes.post('/', async (req, res) => {
+studentRoutes.post('/register', async (req, res) => {
   try {
-
     await studentController.addStudent(req.body);
     return res.status(200).end();
   } catch (err) {
@@ -58,7 +57,7 @@ studentRoutes.post('/', async (req, res) => {
   }
 });
 
-studentRoutes.put('/:id', jwtService.authentication, async (req, res) => {
+studentRoutes.put('/:id', jwtService.studentAuthentication, async (req, res) => {
   try {
     const updatedStudent = await studentController.updateStudent(req.params.id, req.body);
     const updatedStudentJson:string = updatedStudent.toJSON();
@@ -72,7 +71,7 @@ studentRoutes.put('/:id', jwtService.authentication, async (req, res) => {
   }
 });
 
-studentRoutes.delete('/:id', jwtService.authentication, async (req, res) => {
+studentRoutes.delete('/:id', jwtService.studentAuthentication, async (req, res) => {
   try {
     await studentController.deleteStudent(req.params.id);
     res.status(204).end();

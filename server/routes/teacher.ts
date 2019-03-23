@@ -3,14 +3,14 @@ const teacherRoutes:any =  Router();
 import  {TeacherController} from "../controllers/teacher";
 import { TeacherModel as TeacherModel } from "../models/teacher";
 
-const jwtService = require('../middleware/authentificationMiddleware');
+const jwtService = require('../middleware/authenticationMiddleware');
 
 // injecting the teacher model in the controller instance
 const teacherController = new TeacherController(TeacherModel);
 
 teacherRoutes.post('/login', async (req, res) => {
   try {
-    const teacher = await teacherController.getTeacher();
+    const teacher = await teacherController.getTeacher(req.body.email);
 
     if (teacher.comparePassword(req.body.password) === true) {
       const teacherJson = teacher.toJSON();
@@ -28,7 +28,7 @@ teacherRoutes.post('/login', async (req, res) => {
   }
 });
 
-teacherRoutes.get('/', async (req, res) => {
+teacherRoutes.get('/', jwtService.teacherAuthentication, async (req, res) => {
   try {
     const teachers = await teacherController.getTeachers();
     res.json(teachers);
@@ -37,7 +37,7 @@ teacherRoutes.get('/', async (req, res) => {
   }
 });
 
-teacherRoutes.get('/:id', jwtService.authentication, async (req, res) => {
+teacherRoutes.get('/:id', jwtService.teacherAuthentication, async (req, res) => {
   try {
     const teacher = await teacherController.getTeacherById(req.params.id);
     res.json(teacher);
@@ -48,7 +48,7 @@ teacherRoutes.get('/:id', jwtService.authentication, async (req, res) => {
   }
 });
 
-teacherRoutes.post('/', async (req, res) => {
+teacherRoutes.post('/register', async (req, res) => {
   try {
 
     await teacherController.addTeacher(req.body);
@@ -58,7 +58,7 @@ teacherRoutes.post('/', async (req, res) => {
   }
 });
 
-teacherRoutes.put('/:id', jwtService.authentication, async (req, res) => {
+teacherRoutes.put('/:id', jwtService.teacherAuthentication, async (req, res) => {
   try {
     const updatedTeacher = await teacherController.updateTeacher(req.params.id, req.body);
     const updatedTeacherJson:string = updatedTeacher.toJSON();
@@ -72,7 +72,7 @@ teacherRoutes.put('/:id', jwtService.authentication, async (req, res) => {
   }
 });
 
-teacherRoutes.delete('/:id', jwtService.authentication, async (req, res) => {
+teacherRoutes.delete('/:id', jwtService.teacherAuthentication, async (req, res) => {
   try {
     await teacherController.deleteTeacher(req.params.id);
     res.status(204).end();

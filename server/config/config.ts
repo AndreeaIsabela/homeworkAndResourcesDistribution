@@ -10,7 +10,12 @@ export const config = {
       storage: 'mongodb://localhost:27017'
     }
   },
-  authentification: {
-    jwtSecret: process.env.JWT_SECRET || 'secret'
+  authentication: {
+    student: {
+      jwtSecret: process.env.JWT_SECRET || 'student'
+    },
+    teacher: {
+      jwtSecret: process.env.JWT_SECRET || 'teacher'
+    }
   }
 };

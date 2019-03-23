@@ -10,7 +10,7 @@ export class StudentController {
 
   jwtSignUser(user) {
     const ONE_DAY: number = 60 * 60 * 24;
-    return jwt.sign(user, config.authentification.jwtSecret, {
+    return jwt.sign(user, config.authentication.student.jwtSecret, {
       expiresIn: ONE_DAY
     });
   }
@@ -34,8 +34,8 @@ export class StudentController {
     return updatedStudent.save();
   }
 
-  async getStudent() {
-    return await this.model.findOne();
+  async getStudent(email) {
+    return await this.model.findOne({email: email});
   }
 
   async deleteStudent(id) {
