@@ -1,4 +1,4 @@
-import App from '../App.vue';
+import App from './App.vue';
 import Vue from "vue";
 import axios from 'axios';
 import * as router from './router';
@@ -19,6 +19,7 @@ var link = new Vue({
       function (error) {
         if (error.response && error.response.status === 403) {
           localStorage.removeItem('token');
+          localStorage.removeItem('type');
           self.loggedin = false;
           self.$router.push('/login');
           location.reload(true);
