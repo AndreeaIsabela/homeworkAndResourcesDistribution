@@ -10,8 +10,7 @@ export interface IStudentModel extends IStudent, Document { };
 export const studentSchema: Schema = new Schema({
   email: {required: true, type: String},
   password: {required: true, type: String},
-  name: {required: true, type: String},
-  surname: {required: true, type: String},
+  username: {required: true, type: String},
 });
 
 studentSchema.pre('save', function (next) {

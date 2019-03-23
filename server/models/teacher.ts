@@ -10,8 +10,7 @@ export interface ITeacherModel extends ITeacher, Document { };
 export const teacherSchema: Schema = new Schema({
     email: {required: true, type: String},
     password: {required: true, type: String},
-    name: {required: true, type: String},
-    surname: {required: true, type: String},
+    username: {required: true, type: String},
 });
 
 teacherSchema.pre('save', function (next) {
