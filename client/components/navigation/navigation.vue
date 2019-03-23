@@ -1,29 +1,34 @@
 <template lang="pug">
   nav.navbar.navbar-expand-sm.navigation
     .container
-      router-link.navbar-brand(to="/files")
+      router-link.navbar-brand(to="/home")
         p Uploader
     
       .justify-content-between(v-if="loggedin")
-        router-link.nav-item.new-link(to="/generateNewLink")
-          i.fa.fa-plus-circle 
-          span.text-element  Add new link
+        router-link.nav-item.new-link(to="/login" v-if="student")
+          span.text-element Student
           
-        span.nav-item.log-out(@click="logOut")
+        router-link.nav-item.new-link(to="/login" v-if="teacher")
+          span.text-element Teacher
+          
+        span.nav-item.log-out(v-on:click="logOut()")
           i.fa.fa-sign-out  
           span.text-element  Log Out
 </template>
 
-<script lang="ts">
+<script lang="js">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-@Component
-export default class navigation extends Vue {
-  @Prop() ["loggedin"];
-  logOut() {
-    localStorage.removeItem("token");
-    this.$router.push("/login");
-    location.reload(true);
+export default  {
+  props: ["loggedin","student", "teacher"],
+  methods:{
+    logOut() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("type");
+      this.$router.push("/login");
+      location.reload(true);
+    }
+
   }
 }
 </script>

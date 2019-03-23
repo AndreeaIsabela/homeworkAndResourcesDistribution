@@ -1,7 +1,7 @@
 <template>
   <div id="link">
-    <navigation v-bind:loggedin="loggedin"></navigation>
-     <main class="container">
+    <navigation v-bind:loggedin="loggedin" v-bind:student="student" v-bind:teacher="teacher"></navigation>
+     <main>
       <router-view></router-view>
     </main>
   </div>
@@ -14,16 +14,30 @@ export default {
   },
   data: function(){
     return{
-    loggedin: false
+    loggedin: false,
+    teacher: false,
+    student: false
     }
   },
   mounted: function() {
     const token = window.localStorage.getItem("token");
+    const type = window.localStorage.getItem("type");
+    if (type === "student") {
+      this.student = true;
+    } else if(type === "teacher") {
+      this.teacher = true;
+    }
     if (token) {
       this.loggedin = true;
     }
     this.$on("loggedin",() =>  {
       this.loggedin = true;
+    });
+    this.$on("student",() =>  {
+      this.student = true;
+    });
+    this.$on("teacher",() =>  {
+      this.teacher = true;
     });
   }
 };
@@ -32,10 +46,6 @@ export default {
 body 
   font-family: 'Roboto', 'Arial', 'Helvetica', sans-serif
   background-color: #FCFCFC
-
-@media(min-width : 992px) 
-  section 
-    margin: 10% 30% 0 30%
 
 h2 
   margin-bottom: 10%
