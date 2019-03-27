@@ -5,10 +5,10 @@
         p Uploader
     
       .justify-content-between(v-if="loggedin")
-        router-link.nav-item.new-link(to="/login" v-if="student")
+        router-link.nav-item.new-link(to="/student/homework" v-if="student")
           span.text-element Student
           
-        router-link.nav-item.new-link(to="/login" v-if="teacher")
+        router-link.nav-item.new-link(to="/teacher/homework" v-if="teacher")
           span.text-element Teacher
           
         span.nav-item.log-out(v-on:click="logOut()")
