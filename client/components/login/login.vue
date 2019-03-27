@@ -210,6 +210,9 @@ a
 .login-form .group .button
   text-transform uppercase
 
+.button
+  outline none
+  
 .login-html .sign-in:checked + .tab,
 .login-html .sign-up:checked + .tab
   color #fff
