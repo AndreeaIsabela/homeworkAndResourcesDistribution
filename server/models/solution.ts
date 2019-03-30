@@ -6,8 +6,8 @@ export interface ISolutionModel extends  Document { };
 export const solutionSchema: Schema = new Schema({
   homework: {required: true, type: String},
   studentName: {type: String, required: true},
-  date: {required: true, type: String},
-  link: {type: String}
+  updateDate: {required: true, type: String},
+  filePath: {type: String}
 
 });
 

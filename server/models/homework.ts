@@ -9,7 +9,8 @@ export const homeworkSchema: Schema = new Schema({
   title: {required: true, type: String},
   date: {required: true, type: String},
   expirationDate: {type: String},
-  requirement: {required: true, type: String}
+  requirement: {required: true, type: String},
+  resources: {type: String}
 
 });
 
