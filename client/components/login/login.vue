@@ -43,16 +43,6 @@
             span Teacher
           .group
             button.button(type='submit' value='Sign Up' v-on:click="registerUser()") Sign Up
-
-
-  //- section
-  //-   h2.font-weight-bold  Log In: 
-  //-   .form-group
-  //-     input.form-control.input#input-password(type="password" v-model="password" v-on:keyup.enter="login" v-on:change="message=''" placeholder="password" autofocus)
-  //-   .text-center
-  //-     p.text-danger.error-message(v-if="message") {{message}}
-  //-   .form-group.text-right
-  //-     button#login.btn.btn-def(@click="login") Continue
 </template>
 
 <script lang="js">
@@ -91,7 +81,7 @@ export default  {
         this.$parent.$emit("loggedin", true);
         this.$parent.$emit("" + this.type, true);
       }
-      this.$router.push("/"+ this.type);
+      this.$router.push("/"+ this.type + "/home");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         this.message = "The password or email are incorrect.";
@@ -117,11 +107,11 @@ export default  {
         this.$parent.$emit("loggedin", true);
         this.$parent.$emit("" + this.type, true);
       }
-      this.$router.push("/"+ this.type);
+      this.$router.push("/"+ this.type + "/home");
     } catch (error) {
-      // if (error.response && error.response.status === 401) {
-      //   this.message = "Invalid password.";
-      // }
+      if (error.response && error.response.status === 401) {
+        this.message = "Invalid password.";
+      }
       console.log(error);
     }
   }

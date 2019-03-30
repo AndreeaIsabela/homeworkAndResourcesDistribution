@@ -1,7 +1,7 @@
 <template>
   <div id="link">
     <navigation v-bind:loggedin="loggedin" v-bind:student="student" v-bind:teacher="teacher"></navigation>
-     <main>
+     <main class="containet-fluid">
       <router-view></router-view>
     </main>
   </div>
