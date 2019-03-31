@@ -1,16 +1,20 @@
-import { Document, Schema, Model, model} from "mongoose";
+import { Document, Schema, Model, model } from "mongoose";
+const mongoose = require('mongoose');
 const SHA256 = require('crypto-js/sha256');
 
 interface ITeacher {
   password: string
 }
-
+var ObjectId = mongoose.Schema.ObjectId;
 export interface ITeacherModel extends ITeacher, Document { };
 
 export const teacherSchema: Schema = new Schema({
-    email: {required: true, type: String},
-    password: {required: true, type: String},
-    username: {required: true, type: String},
+  email: { required: true, type: String },
+  password: { required: true, type: String },
+  username: { required: true, type: String },
+  resources: {
+    type: [{ _id: ObjectId , stars: Number, tags: [String], description: String, title: String, link: String, date: String }]
+  }
 });
 
 teacherSchema.pre('save', function (next) {

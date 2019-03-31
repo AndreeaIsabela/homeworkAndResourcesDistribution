@@ -2,6 +2,7 @@ import login from './components/login/login.vue'
 import notFound from './components/notFound/notFound.vue'
 import studentHomework from './components/student/homework/homework.vue'
 import teacherHomework from './components/teacher/homework/homework.vue'
+import teacherResources from './components/teacher/resources/resources.vue'
 import teacherHome from './components/teacher/home/home.vue'
 import VueRouter from "vue-router";
 
@@ -20,6 +21,10 @@ const Router = new VueRouter({
     {
       path: '/teacher/homework',
       component: teacherHomework
+    },
+    {
+      path: '/teacher/resources',
+      component: teacherResources
     },
     {
       path: '/teacher/home',

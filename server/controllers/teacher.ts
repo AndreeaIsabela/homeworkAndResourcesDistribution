@@ -19,6 +19,18 @@ export class TeacherController {
     return await this.model.find();
   }
 
+  async getTotaNrOfLinks(teacherId) {
+    const teacher = await this.model.findById(teacherId);
+    const resources = teacher.resources;
+    return await resources.count();
+  }
+
+  async getPageLinks(query, teacherId) {
+    const teacher = await this.model.findById(teacherId);
+    const resources = teacher.resources;
+    return await resources.sort({ _id: -1 }).skip(query.skip).limit(query.limit);
+  }
+
   async getTeacherById(id) {
     return await this.model.findById(id);
   }
@@ -38,8 +50,8 @@ export class TeacherController {
     return await this.model.findOne({email:email});
   }
 
-  async deleteTeacher(id) {
-    return await this.model.findByIdAndRemove(id);
+  async deleteTeacher(teacherId, resourceId) {
+    return await (this.model.findById(teacherId)).findByIdAndRemove(resourceId);
   }
 
 }
