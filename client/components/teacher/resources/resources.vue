@@ -1,5 +1,14 @@
 <template lang="pug">
+  div
+    .addResources.text-center
+      router-link.new-link(to="/teacher/addResources") 
+        i.fa.fa-plus-circle 
+        span.text-element  Add new resource
     #showFiles(v-if="resourcesVector.length")
+      .col-md-8.offset-md-2
+        .input-group.col-md-10.offset-md-1
+          input#link-input.form-control.input(type="email"  aria-describedby="emailHelp" placeholder="email")
+          button#search.btn.btn-def.in-field-button Search
       h3#showFilesTitle.font-weight-bold.title Recent Resources
       div.row
         div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(resource,index) in resourcesVector" v-bind:key="index")
@@ -13,7 +22,7 @@
             button.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
 
       b-pagination(align="center" :total-rows="totalRows" v-model="currentPage" :per-page="20")
-    .show-files(v-else-if="this.loaded && !resourcesVector.length")
+    .show-files.text-center(v-else-if="this.loaded && !resourcesVector.length")
           img.img-fluid(src="https://es.seaicons.com/wp-content/uploads/2015/11/note-icon.png")
           h6.font-weight-bold.text-center No new resources were added.
 </template>
@@ -31,6 +40,14 @@ var http: any = Vue.prototype.http;
 export default {
   data: function() {
     return {
+      newResource :{
+        title: '',
+        description: '',
+        stars: 0,
+        tags: [],
+        link:'',
+        date: ''
+      },
       resourcesVector: [],
       currentPage: 1,
       totalRows: 0,
@@ -41,6 +58,17 @@ export default {
     };
   },
   methods: {
+    addResource: async function(){
+      const url = "/teacher/" + this.teacherId + "/resources/";
+      const response = await this.http.post(url, {
+        title: this.newResource.title,
+        description: this.newResource.description,
+        link: this.newResource.link,
+        stars: this.newResource.stars,
+        tags: this.newResource.tags,
+        date: moment(),
+      });
+    },
     onDelete: async function(id, index) {
     const url = "/teacher/" + this.teacherId + "/resources/" + id;
     try {
