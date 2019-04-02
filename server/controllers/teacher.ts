@@ -1,7 +1,8 @@
 import * as jwt from "jsonwebtoken";
 import { config } from '../config/config';
+var mongoose = require('mongoose');
 
-
+var ObjectId = mongoose.Types.ObjectId;
 export class TeacherController {
   model: any;
   constructor(teacherModel) {
@@ -43,8 +44,8 @@ export class TeacherController {
   }
 
   async addResource(resource, teacherId) {
-    console.log(resource);
     const teacher: any = await this.model.findById(teacherId);
+    resource._id = new ObjectId;
     teacher.resources.push(resource);
     return await teacher.save();
   }
@@ -58,8 +59,14 @@ export class TeacherController {
     return await this.model.findOne({ email: email });
   }
 
-  async deleteTeacher(teacherId, resourceId) {
-    return await (this.model.findById(teacherId)).findByIdAndRemove(resourceId);
+  async deleteResource(teacherId, resourceId) {
+    const teacher: any = await this.model.findById(teacherId);
+    var index = teacher.resources.map(x => {
+      return x._id;
+    }).indexOf(resourceId);
+    teacher.resources.splice(index, 1);
+    console.log(teacher.resources);
+    return await teacher.save();
   }
 
 }

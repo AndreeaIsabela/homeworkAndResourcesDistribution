@@ -87,7 +87,7 @@ teacherRoutes.put('/:id', jwtService.teacherAuthentication, async (req, res) => 
 teacherRoutes.get('/:teacherId/resources/totalPages', jwtService.teacherAuthentication, async (req, res) => {
   try {
     //get the total number of items used for pagination
-    const teacherId =req.params.teacherId;
+    const teacherId = req.params.teacherId;
     const response = await teacherController.getTotaNrOfLinks(teacherId);
     return res.json(Number(response));
   } catch (err) {
@@ -97,7 +97,7 @@ teacherRoutes.get('/:teacherId/resources/totalPages', jwtService.teacherAuthenti
 
 teacherRoutes.get('/:teacherId/resources/page/:page', jwtService.teacherAuthentication, async (req, res) => {
   try {
-    const teacherId =req.params.teacherId;
+    const teacherId = req.params.teacherId;
     const pageNo = parseInt(req.params.page);
     const size = 20;
     var query: any = {};
@@ -108,13 +108,7 @@ teacherRoutes.get('/:teacherId/resources/page/:page', jwtService.teacherAuthenti
     query.skip = size * (pageNo - 1);
     query.limit = size;
     const links = await teacherController.getPageLinks(query, teacherId);
-    const fullResponse = [];
-
-    links.forEach(element => {
-      fullResponse.push(element.toJSON({ virtuals: true }))
-    });
-
-    res.json(fullResponse);
+    res.json(links);
   } catch (err) {
     console.log(err);
     res.status(500).end();
@@ -123,8 +117,8 @@ teacherRoutes.get('/:teacherId/resources/page/:page', jwtService.teacherAuthenti
 
 teacherRoutes.delete('/:teacherId/resources/:resourceId', jwtService.teacherAuthentication, async (req, res) => {
   try {
-    const teacherId =req.params.teacherId;
-    await teacherController.deleteTeacher(teacherId, req.params.resourceId);
+    const teacherId = req.params.teacherId;
+    await teacherController.deleteResource(teacherId, req.params.resourceId);
     res.status(204).end();
   } catch (err) {
     console.log(err);
