@@ -60,6 +60,16 @@ teacherRoutes.post('/register', async (req, res) => {
   }
 });
 
+teacherRoutes.post('/:teacherId/resources', async (req, res) => {
+  try {
+
+    await teacherController.addResource(req.body, req.params.teacherId);
+    return res.status(200).end();
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
 teacherRoutes.put('/:id', jwtService.teacherAuthentication, async (req, res) => {
   try {
     const updatedTeacher = await teacherController.updateTeacher(req.params.id, req.body);
