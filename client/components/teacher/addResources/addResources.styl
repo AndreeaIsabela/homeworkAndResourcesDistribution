@@ -1,0 +1,49 @@
+
+.rate 
+	display inline-block
+	margin 0
+	padding 0
+	border none
+fieldset.rate
+	input 
+		display none
+		&:checked 
+			& ~ label 
+				color #ccac00
+	label 
+		float right
+		font-size 0
+		color #d9d9d9
+		&:before 
+			content "\f005"
+			font-family FontAwesome
+			font-size 30px
+	label:hover,
+	label:hover ~ label 
+		color #fcd000
+		transition 0.2s
+	input:checked ~ label:hover,
+	input:checked ~ label:hover ~ label 
+		color #fcd000
+		transition 0.2s
+
+.tag
+	margin-left 20px
+
+.row
+	margin-top: 10%
+
+span.add
+	text-decoration: none
+	color: #FF6161
+	padding: 5px
+	&:hover
+		color: @color
+		text-decoration: none
+		cursor: pointer
+.btn-def
+	border-radius 0.5rem
+	font-weight: 400
+	margin-top: 20px
+	&:hover
+		color: #fff
