@@ -27,6 +27,7 @@ export default  {
 .card-body
   text-align: center
 .row
+  margin-top 5%
   margin-bottom 10%
 .card
   background-color #fcfcfc 
