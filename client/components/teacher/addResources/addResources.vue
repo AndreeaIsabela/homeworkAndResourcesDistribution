@@ -69,6 +69,7 @@ export default {
         tags: this.newResource.tags,
         date: moment()
       });
+      this.$router.push("/teacher/addResources");
     }
   },
 
