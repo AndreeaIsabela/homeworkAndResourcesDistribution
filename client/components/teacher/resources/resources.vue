@@ -6,20 +6,23 @@
         span.text-element  Add new resource
     #showFiles(v-if="resourcesVector.length")
       .col-md-8.offset-md-2
-        .input-group.col-md-10.offset-md-1
+        .input-group.col-md-12
           input#link-input.form-control.input(type="email"  aria-describedby="emailHelp" placeholder="email")
           button#search.btn.btn-def.in-field-button Search
-      h3#showFilesTitle.font-weight-bold.title Recent Resources
+      h3.offset-md-2.col-md-8.col-sm-12#showFilesTitle.font-weight-bold.title Recent Resources
       div.row
         div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(resource,index) in resourcesVector" v-bind:key="index")
           .card-body
             h5.card-title {{resource.title}}
+            p.card-text
+              a(v-bind:href="resource.link") {{resource.link}}
             p.card-text {{resource.description}}
             p.card-text 
-              span(v-for="(tag,index) in resource.tag" v-bind:key="index") #{{tag}}
-            p.card-text
-              small.text-muted Last updated {{resource.date}}
-            button.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
+              span(v-for="(tag,index) in resource.tag" v-bind:key="index") # {{tag}}
+            div.row
+              span.col-md-6.card-text
+                small.text-muted Updated {{resource.date}}
+              button.offset-md-4.col-md-2.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
 
       b-pagination(align="center" :total-rows="totalRows" v-model="currentPage" :per-page="20")
     .show-files.text-center(v-else-if="this.loaded && !resourcesVector.length")
@@ -58,17 +61,6 @@ export default {
     };
   },
   methods: {
-    addResource: async function(){
-      const url = "/teacher/" + this.teacherId + "/resources/";
-      const response = await this.http.post(url, {
-        title: this.newResource.title,
-        description: this.newResource.description,
-        link: this.newResource.link,
-        stars: this.newResource.stars,
-        tags: this.newResource.tags,
-        date: moment(),
-      });
-    },
     onDelete: async function(id, index) {
     const url = "/teacher/" + this.teacherId + "/resources/" + id;
     try {
@@ -106,6 +98,7 @@ export default {
         });
       }
       this.loaded = true;
+      console.log(this.resourcesVector);
     } catch (err) {
       console.log(err);
     }

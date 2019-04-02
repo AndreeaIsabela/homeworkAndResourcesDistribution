@@ -56,7 +56,7 @@ h3
   color: #404249
 
 .title 
-  margin-top: 10%
+  margin-top: 50px
 
 .input 
   border-radius: 10rem
