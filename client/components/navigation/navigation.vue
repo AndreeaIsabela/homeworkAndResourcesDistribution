@@ -49,7 +49,6 @@ img
   margin-right 5px
 
 .navigation 
-  margin-bottom: 5%;
   background-color: #060813
 
 .ai-logo-svg 
