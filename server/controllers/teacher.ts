@@ -22,13 +22,14 @@ export class TeacherController {
   async getTotaNrOfLinks(teacherId) {
     const teacher = await this.model.findById(teacherId);
     const resources = teacher.resources;
-    return await resources.count();
+    return resources.length;
   }
 
   async getPageLinks(query, teacherId) {
     const teacher = await this.model.findById(teacherId);
     const resources = teacher.resources;
-    return await resources.sort({ _id: -1 }).skip(query.skip).limit(query.limit);
+    const array = resources.slice(query.skip, query.limit);
+    return array.reverse();
   }
 
   async getTeacherById(id) {
@@ -41,13 +42,20 @@ export class TeacherController {
     return await newTeacher.save();
   }
 
+  async addResource(resource, teacherId) {
+    console.log(resource);
+    const teacher: any = await this.model.findById(teacherId);
+    teacher.resources.push(resource);
+    return await teacher.save();
+  }
+
   async updateTeacher(id, teacher) {
     const updatedTeacher: any = new this.model(await this.model.findOneAndUpdate({ _id: id }, teacher, { new: true }));
     return updatedTeacher.save();
   }
 
   async getTeacher(email) {
-    return await this.model.findOne({email:email});
+    return await this.model.findOne({ email: email });
   }
 
   async deleteTeacher(teacherId, resourceId) {
