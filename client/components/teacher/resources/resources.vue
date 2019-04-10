@@ -7,8 +7,8 @@
     #showFiles(v-if="resourcesVector.length")
       .col-md-8.offset-md-2
         .input-group.col-md-12
-          input#link-input.form-control.input(type="email"  aria-describedby="emailHelp" placeholder="email")
-          button#search.btn.btn-def.in-field-button Search
+          input#link-input.form-control.input(type="email"  aria-describedby="emailHelp" placeholder="email" v-model="searchedWord")
+          button#search.btn.btn-def.in-field-button(v-on:click="getByTitle(resourcesVector,searchedWord)") Search
       h3.offset-md-2.col-md-8.col-sm-12#showFilesTitle.font-weight-bold.title Recent Resources
       div.row
         div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(resource,index) in resourcesVector" v-bind:key="index")
@@ -43,42 +43,52 @@ var http: any = Vue.prototype.http;
 export default {
   data: function() {
     return {
-      newResource :{
-        title: '',
-        description: '',
-        stars: 0,
-        tags: [],
-        link:'',
-        date: ''
-      },
       resourcesVector: [],
       currentPage: 1,
       totalRows: 0,
       rows: 1,
       rowsPerPage: 20,
       loaded: false,
-      teacherId: ""
+      teacherId: "",
+      searchedWord: "",
+      searchedList: []
     };
   },
   methods: {
+    getByTitle(list, keyword) {
+      const search = keyword.trim().toLowerCase();
+      if (!search.length) {
+        this.searchedList = list;
+      }
+      console.log(search);
+
+      this.searchedList = list.filter(
+        item => item.title.toLowerCase().indexOf(search) > -1
+      );
+    },
+
     onDelete: async function(id, index) {
-    const url = "/teacher/" + this.teacherId + "/resources/" + id;
-    try {
-      const response = await this.http.delete(url);
-      this.resourcesVector.splice(index, 1);
-    } catch (err) {
-      console.log(err);
+      const url = "/teacher/" + this.teacherId + "/resources/" + id;
+      try {
+        const response = await this.http.delete(url);
+        this.resourcesVector.splice(index, 1);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
   },
 
   created: async function() {
     this.teacherId = window.localStorage.getItem("user");
     try {
       //get first 20 itemsl.
-      const response = await this.http.get("/teacher/" + this.teacherId + "/resources/page/1");
+      const response = await this.http.get(
+        "/teacher/" + this.teacherId + "/resources/page/1"
+      );
       //get  total number of items
-      const totalRowsObj = await this.http.get("/teacher/" + this.teacherId + "/resources/totalPages");
+      const totalRowsObj = await this.http.get(
+        "/teacher/" + this.teacherId + "/resources/totalPages"
+      );
       this.totalRows = totalRowsObj.data;
       this.rows = response.data;
       var index = 0;
@@ -109,7 +119,8 @@ export default {
       newPageNumber: number,
       oldPageNumber: number
     ) {
-      const resources = "/teacher/" + this.teacherId + "/resources/page/" + newPageNumber;
+      const resources =
+        "/teacher/" + this.teacherId + "/resources/page/" + newPageNumber;
       const response = await this.http.get(resources);
 
       this.resourcesVector = [];

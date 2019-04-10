@@ -62,7 +62,6 @@ teacherRoutes.post('/register', async (req, res) => {
 
 teacherRoutes.post('/:teacherId/resources', async (req, res) => {
   try {
-
     await teacherController.addResource(req.body, req.params.teacherId);
     return res.status(200).end();
   } catch (err) {
