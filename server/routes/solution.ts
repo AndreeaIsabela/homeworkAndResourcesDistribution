@@ -1,6 +1,6 @@
-import {Router} from "express";
-const solutionRoutes:any =  Router();
-import  {SolutionController} from "../controllers/solution";
+import { Router } from "express";
+const solutionRoutes: any = Router();
+import { SolutionController } from "../controllers/solution";
 import { SolutionModel as SolutionModel } from "../models/solution";
 
 const jwtService = require('../middleware/authenticationMiddleware');
@@ -28,7 +28,7 @@ solutionRoutes.get('/:id', jwtService.teacherAuthentication, async (req, res) =>
   }
 });
 
-solutionRoutes.post('/solution', async (req, res) => {
+solutionRoutes.post('/', async (req, res) => {
   try {
     await solutionController.addSolution(req.body);
     return res.status(200).end();
