@@ -3,6 +3,7 @@ import notFound from './components/notFound/notFound.vue'
 import studentHomework from './components/student/homework/homework.vue'
 import teacherHomework from './components/teacher/homework/homework.vue'
 import teacherAddResources from './components/teacher/addResources/addResources.vue'
+import teacherAddHomework from './components/teacher/addHomework/addHomework.vue'
 import teacherResources from './components/teacher/resources/resources.vue'
 import teacherHome from './components/teacher/home/home.vue'
 import VueRouter from "vue-router";
@@ -34,6 +35,10 @@ const Router = new VueRouter({
     {
       path: '/teacher/addResources',
       component: teacherAddResources
+    },
+    {
+      path: '/teacher/addHomework',
+      component: teacherAddHomework
     },
     {
       path: '/student/homework',
