@@ -6,16 +6,13 @@
         span Uploader
     
       .justify-content-between(v-if="loggedin")
-        router-link.nav-item.new-link(to="/student/homework" v-if="student")
-          span.text-element Homework
-          
-        router-link.nav-item.resources(to="/teacher/resources" v-if="teacher")
-          i.fa.fa-book  
-          span.text-element Resources
+        //- router-link.nav-item.resources(to="/resources")
+        //-   i.fa.fa-book  
+        //-   span.text-element Resources
 
-        router-link.nav-item.homework(to="/teacher/homework" v-if="teacher")
-          i.fa.fa-folder-open  
-          span.text-element Homeworks
+        //- router-link.nav-item.homework(to="/homework")
+        //-   i.fa.fa-folder-open  
+        //-   span.text-element Homeworks
           
         span.nav-item.log-out(v-on:click="logOut()")
           i.fa.fa-sign-out  
@@ -42,7 +39,7 @@ export default  {
 <style lang="stylus" scoped>
 .navbar-brand
   span 
-    color: #EA8953
+    color: #F7F7FA
 
 img 
   width 35px

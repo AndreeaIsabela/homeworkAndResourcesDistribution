@@ -44,7 +44,8 @@ export default {
   data: function() {
     return {
       tag:"",
-      teacherId: "",
+      userType: "",
+      userId: "",
       newResource: {
         title: "",
         description: "",
@@ -60,7 +61,7 @@ export default {
       this.newResource.tags.push(this.tag);
     },
     addResource: async function() {
-      const url = "/teacher/" + this.teacherId + "/resources/";
+      const url = "/" + this.userType + "/" + this.userId + "/resources/";
       const response = await this.http.post(url, {
         title: this.newResource.title,
         description: this.newResource.description,
@@ -69,12 +70,13 @@ export default {
         tags: this.newResource.tags,
         date: moment()
       });
-      this.$router.push("/teacher/addResources");
+      this.$router.push("/resources");
     }
   },
 
   created: async function() {
-    this.teacherId = window.localStorage.getItem("user");
+    this.userId = window.localStorage.getItem("user");
+    this.userType = window.localStorage.getItem("type");
   }
 };
 </script>

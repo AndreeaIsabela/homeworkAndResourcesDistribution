@@ -75,14 +75,14 @@ export default  {
       const token = response.data.token;
       window.localStorage.setItem("token", token);
       window.localStorage.setItem("type", this.type);
-      window.localStorage.setItem("user", response.data.userId);
+      window.localStorage.setItem("user", response.data.user._id);
       if (token) {
         const AUTH_TOKEN = "Bearer " + token;
         this.http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
         this.$parent.$emit("loggedin", true);
         this.$parent.$emit("" + this.type, true);
       }
-      this.$router.push("/"+ this.type + "/home");
+      this.$router.push("/home");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         this.message = "The password or email are incorrect.";
@@ -102,14 +102,14 @@ export default  {
       const token = response.data.token;
       window.localStorage.setItem("token", token);
       window.localStorage.setItem("type", this.type);
-      window.localStorage.setItem("user", response.data.userId);
+      window.localStorage.setItem("user", response.data.user._id);
       if (token) {
         const AUTH_TOKEN = "Bearer " + token;
         this.http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
         this.$parent.$emit("loggedin", true);
         this.$parent.$emit("" + this.type, true);
       }
-      this.$router.push("/"+ this.type + "/home");
+      this.$router.push("/home");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         this.message = "Invalid password.";

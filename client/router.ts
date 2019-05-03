@@ -1,16 +1,14 @@
 import login from './components/login/login.vue'
 import notFound from './components/notFound/notFound.vue'
-import studentHomework from './components/student/homework/homework.vue'
-import teacherHomework from './components/teacher/homework/homework.vue'
-import teacherAddResources from './components/teacher/addResources/addResources.vue'
-import teacherAddHomework from './components/teacher/addHomework/addHomework.vue'
-import teacherResources from './components/teacher/resources/resources.vue'
-import teacherHome from './components/teacher/home/home.vue'
+import homework from './components/homework/homework.vue'
+import addResources from './components/addResources/addResources.vue'
+import addHomework from './components/addHomework/addHomework.vue'
+import resources from './components/resources/resources.vue'
+import home from './components/home/home.vue'
 import VueRouter from "vue-router";
 
 
 const Router = new VueRouter({
-  // routes: routes // short for `routes: routes`
   routes: [
     {
       path: '/notFound',
@@ -21,33 +19,27 @@ const Router = new VueRouter({
       component: login
     },
     {
-      path: '/teacher/homework',
-      component: teacherHomework
+      path: '/homework',
+      component: homework
     },
     {
-      path: '/teacher/resources',
-      component: teacherResources
+      path: '/resources',
+      component: resources
     },
     {
-      path: '/teacher/home',
-      component: teacherHome
+      path: '/home',
+      component: home
     },
     {
-      path: '/teacher/addResources',
-      component: teacherAddResources
+      path: '/addResources',
+      component: addResources
     },
     {
-      path: '/teacher/addHomework',
-      component: teacherAddHomework
+      path: '/addHomework',
+      component: addHomework
     },
-    {
-      path: '/student/homework',
-      component: studentHomework
-    },
-    // {
-    //   path: '/student/home',
-    //   component: studentHome
-    // },
+
+
     // {
     //   path: '/generated/:id',
     //   component: generated,

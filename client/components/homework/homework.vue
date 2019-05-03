@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     .addHomeworks.text-center
-      router-link.new-link(to="/teacher/addHomework") 
+      router-link.new-link(to="/addHomework") 
         i.fa.fa-plus-circle 
         span.text-element  Add new homework
     #showFiles(v-if="homeworksVector.length")
@@ -14,7 +14,8 @@
         div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(homework,index) in homeworksVector" v-bind:key="index")
           .card-body
             h5.card-title {{homework.title}}
-            p.card-text {{homework._id}} Group: {{homework.group}}
+            p.card-text {{homework._id}} 
+            p.card-text Group: {{homework.group}}
             p.card-text.text-truncate {{homework.requirement}}
             div.row
               span.col-md-6.card-text
@@ -46,7 +47,7 @@ export default {
       rows: 1,
       rowsPerPage: 20,
       loaded: false,
-      teacherId: '',
+      userId: '',
       searchedWord: '',
       searchedList: []
     };
@@ -64,7 +65,7 @@ export default {
 },
 
     onDelete: async function(id, index) {
-    const url = "/homework/" + this.teacherId + "/" + id;
+    const url = "/homework/" + this.userId + "/" + id;
     try {
       const response = await this.http.delete(url);
       this.homeworksVector.splice(index, 1);
@@ -75,12 +76,12 @@ export default {
   },
 
   created: async function() {
-    this.teacherId = window.localStorage.getItem("user");
+    this.userId = window.localStorage.getItem("user");
     try {
       //get first 20 itemsl.
-      const response = await this.http.get("/homework/" + this.teacherId + "/page/1");
+      const response = await this.http.get("/homework/" + this.userId + "/page/1");
       //get  total number of items
-      const totalRowsObj = await this.http.get("/homework/" + this.teacherId + "/totalPages");
+      const totalRowsObj = await this.http.get("/homework/" + this.userId + "/totalPages");
       this.totalRows = totalRowsObj.data;
       this.rows = response.data;
       var index = 0;
@@ -113,7 +114,7 @@ export default {
       newPageNumber: number,
       oldPageNumber: number
     ) {
-      const homeworks = "/teacher/" + this.teacherId + "/homeworks/page/" + newPageNumber;
+      const homeworks = "/teacher/" + this.userId + "/homeworks/page/" + newPageNumber;
       const response = await this.http.get(homeworks);
 
       this.homeworksVector = [];

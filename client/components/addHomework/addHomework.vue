@@ -17,7 +17,7 @@
             input.form-control(type='text' v-model="resource" placeholder='resource')
           span.add.col-md-2
             i.fa.fa-plus-circle(title='add resource' v-on:click="addResource()")
-        span.resource(v-for="(resource, index) in newHomework.resources" v-bind:key="index") # {{resource}}
+        span.resource(v-for="(resource, index) in newHomework.resources" v-bind:key="index")  {{resource}}
 
         .form-group
           button.btn.btn-def.col-md-12(v-on:click="addHomework()") Add homework
@@ -36,7 +36,7 @@ export default {
   data: function() {
     return {
       resource:"",
-      teacherId: "",
+      userId: "",
       newHomework: {
         title: "",
         group: "",
@@ -58,12 +58,12 @@ export default {
         title: this.newHomework.title,
         group: this.newHomework.group,
         requirement: this.newHomework.requirement,
-        expirationDate: moment(new Date(this.newHomework.expirationDate)).format("DD/MM/YYYY"),
+        expirationDate: this.newHomework.expirationDate,
         resources: this.newHomework.resources,
         date: moment(),
-        teacher: this.teacherId
+        teacher: this.userId
       });
-      this.$router.push("/teacher/homework");
+      this.$router.push("/homework");
       } catch(error) {
         console.log(error);
       }
@@ -71,7 +71,7 @@ export default {
   },
 
   created: async function() {
-    this.teacherId = window.localStorage.getItem("user");
+    this.userId = window.localStorage.getItem("user");
   }
 };
 </script>

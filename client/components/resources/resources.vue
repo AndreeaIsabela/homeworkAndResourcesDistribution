@@ -1,28 +1,31 @@
 <template lang="pug">
   div
     .addResources.text-center
-      router-link.new-link(to="/teacher/addResources") 
+      router-link.new-link(to="/addResources") 
         i.fa.fa-plus-circle 
-        span.text-element  Add new resource
+        span.text-element.addResources  Add new resource
     #showFiles(v-if="resourcesVector.length")
       .col-md-8.offset-md-2
         .input-group.col-md-12
-          input#link-input.form-control.input(type="email"  aria-describedby="emailHelp" placeholder="email" v-model="searchedWord")
-          button#search.btn.btn-def.in-field-button(v-on:click="getByTitle(resourcesVector,searchedWord)") Search
+          input#link-input.form-control.input(type="search"  aria-describedby="search" placeholder="search" v-model="searchedWord")
+          //- button#search.btn.btn-def.in-field-button(v-on:click="getByTitle(resources,searchedWord)") Search
       h3.offset-md-2.col-md-8.col-sm-12#showFilesTitle.font-weight-bold.title Recent Resources
       div.row
-        div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(resource,index) in resourcesVector" v-bind:key="index")
+        div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(resource,index) in resources" v-bind:key="index")
           .card-body
-            h5.card-title {{resource.title}}
-            p.card-text
+            h5.card-title Title: {{resource.title}}
+            p.card-text Link:
               a(v-bind:href="resource.link") {{resource.link}}
-            p.card-text {{resource.description}}
+            p.card-text Description: {{resource.description}}
             p.card-text 
-              span(v-for="(tag,index) in resource.tag" v-bind:key="index") # {{tag}}
+              span(v-for="(tag,index) in resource.tags" v-bind:key="index") # {{tag}}
             div.row
-              span.col-md-6.card-text
+              span.col-md-4.card-text
                 small.text-muted Updated {{resource.date}}
-              button.offset-md-4.col-md-2.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
+              .offset-md-1.col-md-2 
+                span {{resource.stars}} 
+                span.fa.fa-2x.fa-star 
+              button.offset-md-3.col-md-2.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
 
       b-pagination(align="center" :total-rows="totalRows" v-model="currentPage" :per-page="20")
     .show-files.text-center(v-else-if="this.loaded && !resourcesVector.length")
@@ -49,26 +52,26 @@ export default {
       rows: 1,
       rowsPerPage: 20,
       loaded: false,
-      teacherId: "",
+      userId: "",
+      userType:"",
       searchedWord: "",
       searchedList: []
     };
   },
+  computed: {
+    resources: function() {
+      let files = this.resourcesVector.filter(file => {
+        return (
+          file.title.toLowerCase().indexOf(this.searchedWord.toLowerCase()) >= 0 ||
+          file.tags.includes(this.searchedWord.toLowerCase())
+        );
+      });
+      return files;
+    }
+  },
   methods: {
-    getByTitle(list, keyword) {
-      const search = keyword.trim().toLowerCase();
-      if (!search.length) {
-        this.searchedList = list;
-      }
-      console.log(search);
-
-      this.searchedList = list.filter(
-        item => item.title.toLowerCase().indexOf(search) > -1
-      );
-    },
-
     onDelete: async function(id, index) {
-      const url = "/teacher/" + this.teacherId + "/resources/" + id;
+      const url = "/" + this.userType + "/" + this.userId + "/resources/" + id;
       try {
         const response = await this.http.delete(url);
         this.resourcesVector.splice(index, 1);
@@ -79,15 +82,16 @@ export default {
   },
 
   created: async function() {
-    this.teacherId = window.localStorage.getItem("user");
+    this.userId = window.localStorage.getItem("user");
+    this.userType = window.localStorage.getItem("type");
     try {
       //get first 20 itemsl.
       const response = await this.http.get(
-        "/teacher/" + this.teacherId + "/resources/page/1"
+        "/" + this.userType + "/" + this.userId + "/resources/page/1"
       );
       //get  total number of items
       const totalRowsObj = await this.http.get(
-        "/teacher/" + this.teacherId + "/resources/totalPages"
+        "/" + this.userType + "/" + this.userId + "/resources/totalPages"
       );
       this.totalRows = totalRowsObj.data;
       this.rows = response.data;
@@ -104,6 +108,7 @@ export default {
           title: response.data[resource].title,
           description: response.data[resource].description,
           stars: response.data[resource].stars,
+          tags: response.data[resource].tags,
           date: moment(response.data[resource].date).format("D MMMM YYYY")
         });
       }
@@ -120,7 +125,7 @@ export default {
       oldPageNumber: number
     ) {
       const resources =
-        "/teacher/" + this.teacherId + "/resources/page/" + newPageNumber;
+        "/" + this.userType + "/" + this.userId + "/resources/page/" + newPageNumber;
       const response = await this.http.get(resources);
 
       this.resourcesVector = [];
@@ -130,6 +135,7 @@ export default {
           _id: response.data[index]._id,
           link: response.data[index].link,
           title: response.data[index].title,
+          tags: response.data[index].tags,
           description: response.data[index].description,
           stars: response.data[index].stars,
           date: moment(response.data[index].date).format("D MMMM YYYY")
