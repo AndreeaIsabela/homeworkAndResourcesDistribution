@@ -71,9 +71,50 @@ studentRoutes.put('/:id', jwtService.studentAuthentication, async (req, res) => 
   }
 });
 
-studentRoutes.delete('/:id', jwtService.studentAuthentication, async (req, res) => {
+studentRoutes.post('/:studentId/resources', async (req, res) => {
   try {
-    await studentController.deleteStudent(req.params.id);
+    await studentController.addResource(req.body, req.params.studentId);
+    return res.status(200).end();
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
+studentRoutes.get('/:studentId/resources/totalPages', jwtService.studentAuthentication, async (req, res) => {
+  try {
+    //get the total number of items used for pagination
+    const studentId = req.params.studentId;
+    const response = await studentController.getTotaNrOfLinks(studentId);
+    return res.json(Number(response));
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+studentRoutes.get('/:studentId/resources/page/:page', jwtService.studentAuthentication, async (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+    const pageNo = parseInt(req.params.page);
+    const size = 20;
+    var query: any = {};
+    if (pageNo < 0 || pageNo === 0) {
+      const response = { "error": true, "message": "invalid page number, should start with 1" };
+      return res.json(response);
+    }
+    query.skip = size * (pageNo - 1);
+    query.limit = size;
+    const links = await studentController.getPageLinks(query, studentId);
+    res.json(links);
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
+studentRoutes.delete('/:studentId/resources/:resourceId', jwtService.studentAuthentication, async (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+    await studentController.deleteResource(studentId, req.params.resourceId);
     res.status(204).end();
   } catch (err) {
     console.log(err);

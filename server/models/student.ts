@@ -1,16 +1,19 @@
 import { Document, Schema, Model, model} from "mongoose";
 const SHA256 = require('crypto-js/sha256');
-
+const mongoose = require('mongoose');
 interface IStudent {
   password: string
 }
-
+var ObjectId = mongoose.Schema.ObjectId;
 export interface IStudentModel extends IStudent, Document { };
 
 export const studentSchema: Schema = new Schema({
   email: {required: true, type: String},
   password: {required: true, type: String},
   username: {required: true, type: String},
+  resources: {
+    type: [{ _id: ObjectId , stars: Number, tags: [String], description: String, title: String, link: String, date: String }]
+  }
 });
 
 studentSchema.pre('save', function (next) {
