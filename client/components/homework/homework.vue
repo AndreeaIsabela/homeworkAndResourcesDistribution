@@ -7,11 +7,10 @@
     #showFiles(v-if="homeworksVector.length")
       .col-md-8.offset-md-2
         .input-group.col-md-12
-          input#link-input.form-control.input(type="email"  aria-describedby="emailHelp" placeholder="email" v-model="searchedWord")
-          button#search.btn.btn-def.in-field-button(v-on:click="getByTitle(homeworksVector,searchedWord)") Search
+          input#link-input.form-control.input(type="search"  aria-describedby="search" placeholder="search" v-model="searchedWord")
       h3.offset-md-2.col-md-8.col-sm-12#showFilesTitle.font-weight-bold.title Recent Homeworks
       div.row
-        div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(homework,index) in homeworksVector" v-bind:key="index")
+        div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(homework,index) in homeworks" v-bind:key="index")
           .card-body
             h5.card-title {{homework.title}}
             p.card-text {{homework._id}} 
@@ -47,41 +46,44 @@ export default {
       rows: 1,
       rowsPerPage: 20,
       loaded: false,
-      userId: '',
-      searchedWord: '',
+      userId: "",
+      searchedWord: "",
       searchedList: []
     };
   },
+  computed: {
+    homeworks: function() {
+      let files = this.homeworksVector.filter(file => {
+        return (
+          file.title.toLowerCase().indexOf(this.searchedWord.toLowerCase()) >= 0
+        );
+      });
+      return files;
+    }
+  },
   methods: {
-   getByTitle (list, keyword) {
-    const search = keyword.trim().toLowerCase();
-    if (!search.length){
-      this.searchedList = list
-    }
-    console.log(search);
-    
-    this.searchedList = list.filter(item => item.title.toLowerCase().indexOf(search) > -1);
-    
-},
-
     onDelete: async function(id, index) {
-    const url = "/homework/" + this.userId + "/" + id;
-    try {
-      const response = await this.http.delete(url);
-      this.homeworksVector.splice(index, 1);
-    } catch (err) {
-      console.log(err);
+      const url = "/homework/" + this.userId + "/" + id;
+      try {
+        const response = await this.http.delete(url);
+        this.homeworksVector.splice(index, 1);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
   },
 
   created: async function() {
     this.userId = window.localStorage.getItem("user");
     try {
       //get first 20 itemsl.
-      const response = await this.http.get("/homework/" + this.userId + "/page/1");
+      const response = await this.http.get(
+        "/homework/" + this.userId + "/page/1"
+      );
       //get  total number of items
-      const totalRowsObj = await this.http.get("/homework/" + this.userId + "/totalPages");
+      const totalRowsObj = await this.http.get(
+        "/homework/" + this.userId + "/totalPages"
+      );
       this.totalRows = totalRowsObj.data;
       this.rows = response.data;
       var index = 0;
@@ -98,8 +100,10 @@ export default {
           requirement: response.data[homework].description,
           resources: response.data[homework].resources,
           date: moment(response.data[homework].date).format("D MMMM YYYY"),
-          expirationDate: moment(response.data[homework].expirationDate).format("D MMMM YYYY"),
-          teacher :  response.data[homework].teacher
+          expirationDate: moment(response.data[homework].expirationDate).format(
+            "D MMMM YYYY"
+          ),
+          teacher: response.data[homework].teacher
         });
       }
       this.loaded = true;
@@ -114,7 +118,8 @@ export default {
       newPageNumber: number,
       oldPageNumber: number
     ) {
-      const homeworks = "/teacher/" + this.userId + "/homeworks/page/" + newPageNumber;
+      const homeworks =
+        "/teacher/" + this.userId + "/homeworks/page/" + newPageNumber;
       const response = await this.http.get(homeworks);
 
       this.homeworksVector = [];
@@ -127,8 +132,10 @@ export default {
           requirement: response.data[index].description,
           resources: response.data[index].resources,
           date: moment(response.data[index].date).format("D MMMM YYYY"),
-          expirationDate: moment(response.data[index].expirationDate).format("D MMMM YYYY"),
-          teacher :  response.data[index].teacher
+          expirationDate: moment(response.data[index].expirationDate).format(
+            "D MMMM YYYY"
+          ),
+          teacher: response.data[index].teacher
         });
         ++index;
       }
