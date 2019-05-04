@@ -82,7 +82,7 @@ img
 
 .log-out
   text-decoration: none
-  color:#0a78c9
+  color #0a78c9
   margin-right 20px
   &:hover
     color: @color

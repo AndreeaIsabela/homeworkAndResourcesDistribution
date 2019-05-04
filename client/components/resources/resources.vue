@@ -13,6 +13,7 @@
       div.row
         div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(resource,index) in resources" v-bind:key="index")
           .card-body
+            span.fa.fa-close(title="Delete homework." v-on:click="onDelete(resource._id, index)")
             h5.card-title Title: {{resource.title}}
             p.card-text Link:
               a(v-bind:href="resource.link") {{resource.link}}
@@ -25,7 +26,7 @@
               .offset-md-1.col-md-2 
                 span {{resource.stars}} 
                 span.fa.fa-2x.fa-star 
-              button.offset-md-3.col-md-2.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
+              //- button.offset-md-3.col-md-2.btn.btn-danger(v-on:click="onDelete(resource._id, index)") Delete
 
       b-pagination(align="center" :total-rows="totalRows" v-model="currentPage" :per-page="20")
     .show-files.text-center(v-else-if="this.loaded && !resourcesVector.length")

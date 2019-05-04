@@ -12,14 +12,16 @@
       div.row
         div.card.mb-3.offset-md-2.col-md-8.col-sm-12(v-for="(homework,index) in homeworks" v-bind:key="index")
           .card-body
+            span.fa.fa-close(title="Delete homework." v-on:click="onDelete(homework._id, index)")
             h5.card-title {{homework.title}}
+              span.fa.fa-sign-in(title="Go to assigment page." v-on:click="goToAssigment()")
             p.card-text {{homework._id}} 
             p.card-text Group: {{homework.group}}
             p.card-text.text-truncate {{homework.requirement}}
             div.row
-              span.col-md-6.card-text
+              span.col-md-8.card-text
                 small.text-muted Added on  {{homework.date}}, expires on {{homework.expirationDate}}
-              button.offset-md-4.col-md-2.btn.btn-danger(v-on:click="onDelete(homework._id, index)") Delete
+              //- button.offset-md-4.col-md-2.btn.btn-danger(v-on:click="onDelete(homework._id, index)") Delete
 
       b-pagination(align="center" :total-rows="totalRows" v-model="currentPage" :per-page="20")
     .show-files.text-center(v-else-if="this.loaded && !homeworksVector.length")
@@ -62,6 +64,9 @@ export default {
     }
   },
   methods: {
+    goToAssigment: function(){
+      this.$router.push('/assigment');
+    },
     onDelete: async function(id, index) {
       const url = "/homework/" + this.userId + "/" + id;
       try {
