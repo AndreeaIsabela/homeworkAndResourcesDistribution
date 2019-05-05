@@ -7,7 +7,7 @@ export class HomeworkController {
     this.model = homeworkModel;
   }
 
-  async getHomeworks(teacherId) {
+  async getHomeworksByTecherID(teacherId) {
     return await this.model.find({ tacher: teacherId });
   }
 
@@ -30,6 +30,13 @@ export class HomeworkController {
     const newHomework: any = new this.model(homework);
     newHomework.teacher = new ObjectId(homework.teacher);
     return await newHomework.save();
+  }
+
+  async addComment(homeworkId, comment) {
+    const homework: any = await this.model.findById(homeworkId);
+    comment._id = new ObjectId;
+    homework.comments.push(comment);
+    return await homework.save();
   }
 
   async updateHomework(id, homework) {

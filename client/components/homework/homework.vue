@@ -14,7 +14,7 @@
           .card-body
             span.fa.fa-close(title="Delete homework." v-on:click="onDelete(homework._id, index)")
             h5.card-title {{homework.title}}
-              span.fa.fa-sign-in(title="Go to assigment page." v-on:click="goToAssigment()")
+              span.fa.fa-sign-in(title="Go to assigment page." v-on:click="goToAssigment(homework._id)")
             p.card-text {{homework._id}} 
             p.card-text Group: {{homework.group}}
             p.card-text.text-truncate {{homework.requirement}}
@@ -64,8 +64,9 @@ export default {
     }
   },
   methods: {
-    goToAssigment: function(){
-      this.$router.push('/assigment');
+    goToAssigment: function(homeworId){
+      var route = '/assigment/' + homeworId; 
+      this.$router.push(route);
     },
     onDelete: async function(id, index) {
       const url = "/homework/" + this.userId + "/" + id;

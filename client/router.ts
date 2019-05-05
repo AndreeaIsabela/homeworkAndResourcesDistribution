@@ -40,11 +40,10 @@ const Router = new VueRouter({
       component: addHomework
     },
     {
-      path: '/assigment',
-      component: assigment
+      path: '/assigment/:id',
+      component: assigment,
+      props: true
     },
-
-
     // {
     //   path: '/generated/:id',
     //   component: generated,

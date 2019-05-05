@@ -10,7 +10,7 @@ const homeworkController = new HomeworkController(HomeworkModel);
 
 homeworkRoutes.get('/:teacherId', async (req, res) => {
   try {
-    const homeworks = await homeworkController.getHomeworks(req.params.teacherId);
+    const homeworks = await homeworkController.getHomeworksByTecherID(req.params.teacherId);
     res.json(homeworks);
   } catch (err) {
     return res.status(500).end();
@@ -48,9 +48,11 @@ homeworkRoutes.get('/:teacherId/page/:page', jwtService.teacherAuthentication, a
   }
 });
 
-homeworkRoutes.get('/:id', async (req, res) => {
+homeworkRoutes.get('/assigment/:id', async (req, res) => {
   try {
+    console.log(req.params.id);
     const homework = await homeworkController.getHomeworkById(req.params.id);
+    console.log(homework)
     res.json(homework);
   }
   catch (err) {
@@ -62,6 +64,15 @@ homeworkRoutes.get('/:id', async (req, res) => {
 homeworkRoutes.post('/', async (req, res) => {
   try {
     await homeworkController.addHomework(req.body);
+    return res.status(200).end();
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
+homeworkRoutes.post('/:id/comment', async (req, res) => {
+  try {
+    await homeworkController.addComment(req.params.id, req.body);
     return res.status(200).end();
   } catch (err) {
     return res.status(500).end();
