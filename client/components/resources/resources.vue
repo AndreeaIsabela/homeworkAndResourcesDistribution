@@ -21,7 +21,7 @@
             p.card-text 
               span(v-for="(tag,index) in resource.tags" v-bind:key="index") # {{tag}}
             div.row
-              span.col-md-4.card-text
+              span.col-md-6.card-text
                 small.text-muted Updated {{resource.date}}
               .offset-md-1.col-md-2 
                 span {{resource.stars}} 

@@ -85,7 +85,6 @@ export default  {
       );
       this.newComment.userEmail = response.data.email;
       this.newComment.date = moment().format("D MMMM YYYY");
-      this.assigment.comments.push(this.newComment);
       const url = "/homework/" + this.id + "/comment "
       const resp = await this.http.post(url, {
         userEmail: response.data.email,
@@ -93,6 +92,7 @@ export default  {
         text: this.newComment.text,
         date: moment().format("D MMMM YYYY")
       });
+      this.assigment.comments.push(this.newComment);
     } catch (err) {
       console.log(err);
     }
