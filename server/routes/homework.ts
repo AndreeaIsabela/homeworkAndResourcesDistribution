@@ -70,6 +70,15 @@ homeworkRoutes.post('/', async (req, res) => {
   }
 });
 
+homeworkRoutes.post('/:homeworkId/addStudent', async (req, res) => {
+  try {
+    await homeworkController.addStudentToHomework(req.params.homeworkId, req.body);
+    return res.status(200).end();
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
 homeworkRoutes.post('/:id/comment', async (req, res) => {
   try {
     await homeworkController.addComment(req.params.id, req.body);

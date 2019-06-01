@@ -39,6 +39,12 @@ export class HomeworkController {
     return await homework.save();
   }
 
+  async addStudentToHomework(homeworkId, student) {
+    const homework: any = await this.model.findById(homeworkId);
+    homework.students.push(student);
+    return await homework.save();
+  }
+
   async updateHomework(id, homework) {
     const updatedHomework: any = new this.model(await this.model.findOneAndUpdate({ _id: id }, homework, { new: true }));
     return updatedHomework.save();
