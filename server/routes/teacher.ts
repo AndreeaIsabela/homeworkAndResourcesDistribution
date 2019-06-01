@@ -52,8 +52,8 @@ teacherRoutes.get('/:id', jwtService.teacherAuthentication, async (req, res) => 
 
 teacherRoutes.post('/register', async (req, res) => {
   try {
-
-    await teacherController.addTeacher(req.body);
+    const teacher = await teacherController.addTeacher(req.body);
+    res.json(teacher);
     return res.status(200).end();
   } catch (err) {
     return res.status(500).end();

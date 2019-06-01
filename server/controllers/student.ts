@@ -24,8 +24,8 @@ export class StudentController {
   }
 
   async addStudent(student) {
-    console.log(student);
     const newStudent: any = new this.model(student);
+    console.log(await newStudent.save());
     return await newStudent.save();
   }
 

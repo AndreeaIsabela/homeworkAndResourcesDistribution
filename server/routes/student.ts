@@ -50,7 +50,8 @@ studentRoutes.get('/:id', jwtService.studentAuthentication, async (req, res) => 
 
 studentRoutes.post('/register', async (req, res) => {
   try {
-    await studentController.addStudent(req.body);
+    const student = await studentController.addStudent(req.body);
+    res.json(student);
     return res.status(200).end();
   } catch (err) {
     return res.status(500).end();
