@@ -102,7 +102,7 @@ export default  {
       const token = response.data.token;
       window.localStorage.setItem("token", token);
       window.localStorage.setItem("type", this.type);
-      window.localStorage.setItem("user", response.data.user._id);
+      window.localStorage.setItem("user", response.data._id);
       if (token) {
         const AUTH_TOKEN = "Bearer " + token;
         this.http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
