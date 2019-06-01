@@ -10,7 +10,7 @@
           // Author
           p.lead
             | Group: {{assigment.group}}
-            button.btn.btn-primary(v-if="userType === 'student'" @click="goToregisterStudentToHomework()") Sign Homework
+            button.btn.btn-primary(v-if="userType === 'student'" @click="addHomework()") Upload homework
           hr
           // Date/Time
           p Posted on: {{assigment.date}}
@@ -79,8 +79,8 @@ export default {
     }
   },
   methods: {
-    goToregisterStudentToHomework: function() {
-      const url = "/enrol/" + this.id;
+    addHomework: function() {
+      const url = "/upload/" + this.id;
       this.$router.push(url);
     },
     postComment: async function() {
@@ -90,6 +90,7 @@ export default {
         );
         this.newComment.userEmail = response.data.email;
         this.newComment.date = moment().format("D MMMM YYYY");
+        const comment = this.newComment
         const url = "/homework/" + this.id + "/comment ";
         const resp = await this.http.post(url, {
           userEmail: response.data.email,
@@ -97,7 +98,8 @@ export default {
           text: this.newComment.text,
           date: moment().format("D MMMM YYYY")
         });
-        this.assigment.comments.push(this.newComment);
+        this.assigment.comments.push(comment);
+        this.newComment.text = '';
       } catch (err) {
         console.log(err);
       }

@@ -4,14 +4,14 @@
       form
         .form-row
           .form-group.col-md-6
-            input.form-control(type='text', placeholder='Title' v-model="newHomework.title")
+            input.form-control(type='text', placeholder='Title' v-model="newHomework.title" required)
           .form-group.col-md-6
-            input.form-control(type='text', placeholder='Group' v-model="newHomework.group")
+            input.form-control(type='text', placeholder='Group' v-model="newHomework.group" required)
         .form-group
-          textarea.form-control(type='text', placeholder='Requirement' v-model="newHomework.requirement")
+          textarea.form-control(type='text', placeholder='Requirement' v-model="newHomework.requirement" required)
         .form-group
           span.col-2.col-md-2 Expiration Date
-          input.col-md-10.form-control(type="date" v-model="newHomework.expirationDate")
+          input.col-md-10.form-control(type="date" v-model="newHomework.expirationDate" required)
         .form-row
           .form-group.col-md-10
             input.form-control(type='text' v-model="resource" placeholder='resource')
@@ -63,7 +63,7 @@ export default {
         date: moment(),
         teacher: this.userId
       });
-      this.$router.push("/homework");
+      window.setTimeout(()=>{this.$router.push("/homework");}, 1000);
       } catch(error) {
         console.log(error);
       }

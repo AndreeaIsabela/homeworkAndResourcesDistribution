@@ -8,6 +8,7 @@
               th(scope="col") Student Name
               th(scope="col") Updated
               th(scope="col") Download 
+              th(scope="col") Grade
           tbody.tr-blue
             tr(v-for="(solution,index) in solutionVector" v-bind:key="index")
               td.text-truncate(v-if="solution.filePath") {{solution.studentName}}
@@ -17,6 +18,7 @@
               td.font-weight-bold.default(v-if="solution.filePath")
                 a#download-file(href="#" v-on:click="download(solution._id)") Download 
               td.font-weight-bold.default.text-muted(v-else) Download
+              td.font-weight-bold.default.text-muted Grade
               <!-- button.btn.btn-danger(v-on:click="onDelete(solution._id, index)") Delete -->
       b-pagination(align="center" :total-rows="totalRows" v-model="currentPage" :per-page="20")
     .show-files(v-else-if="this.loaded && !solutionVector.length")

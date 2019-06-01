@@ -3,10 +3,10 @@
     .addResources.offset-md-2.col-md-8
       form
         .form-group
-          input.form-control(type='text', placeholder='Link' v-model="newResource.link")
+          input.form-control(type='text', placeholder='Link' v-model="newResource.link" required)
         .form-row
           .form-group.col-md-6
-            input.form-control(type='text', placeholder='Title' v-model="newResource.title")
+            input.form-control(type='text', placeholder='Title' v-model="newResource.title" required)
           .form-group.col-md-6
             input.form-control(type='text', placeholder='Description' v-model="newResource.description")
         .form-row
@@ -28,9 +28,7 @@
               label(for='rate1-star1' title='one star' v-on:click="newResource.stars = 1") 1 
         span.tag(v-for="(tag, index) in newResource.tags" v-bind:key="index") # {{tag}}
         .form-group
-          button.btn.btn-def.col-md-12(v-on:click="addResource()") Add resource
-        
-      
+          button.btn.btn-def.col-md-12(v-on:click="addResource()") Add resource     
 </template>
 
 <script lang="ts">
@@ -70,7 +68,7 @@ export default {
         tags: this.newResource.tags,
         date: moment()
       });
-      this.$router.push("/resources");
+      window.setTimeout(()=>{this.$router.push("/resources");}, 300);
     }
   },
 
