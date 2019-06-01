@@ -6,6 +6,7 @@ import addHomework from './components/addHomework/addHomework.vue'
 import resources from './components/resources/resources.vue'
 import assigment from './components/assigment/assigment.vue'
 import enrol from './components/enrol/enrol.vue'
+import upload from './components/upload/upload.vue'
 import home from './components/home/home.vue'
 import VueRouter from "vue-router";
 
@@ -46,8 +47,12 @@ const Router = new VueRouter({
       props: true
     },
     {
-      path: '/enrol/:id',
-      component: enrol,
+      path: '/enrol',
+      component: enrol
+    },
+    {
+      path: '/upload/:id',
+      component: upload,
       props: true
     },
     // {
