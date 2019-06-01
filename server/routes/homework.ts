@@ -17,20 +17,20 @@ homeworkRoutes.get('/:teacherId', async (req, res) => {
   }
 });
 
-homeworkRoutes.get('/:teacherId/totalPages', jwtService.teacherAuthentication, async (req, res) => {
+homeworkRoutes.get('/:userId/totalPages', async (req, res) => {
   try {
     //get the total number of items used for pagination
-    const teacherId = req.params.teacherId;
-    const response = await homeworkController.getTotaNrOfLinks(teacherId);
+    const userId = req.params.userId;
+    const response = await homeworkController.getTotaNrOfLinks(userId);
     return res.json(Number(response));
   } catch (err) {
     res.status(500).end();
   }
 });
 
-homeworkRoutes.get('/:teacherId/page/:page', jwtService.teacherAuthentication, async (req, res) => {
+homeworkRoutes.get('/:userId/page/:page', async (req, res) => {
   try {
-    const teacherId = req.params.teacherId;
+    const userId = req.params.userId;
     const pageNo = parseInt(req.params.page);
     const size = 20;
     var query: any = {};
@@ -40,7 +40,7 @@ homeworkRoutes.get('/:teacherId/page/:page', jwtService.teacherAuthentication, a
     }
     query.skip = size * (pageNo - 1);
     query.limit = size;
-    const links = await homeworkController.getPageLinks(query, teacherId);
+    const links = await homeworkController.getPageLinks(query, userId);
     res.json(links);
   } catch (err) {
     console.log(err);

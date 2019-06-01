@@ -1,9 +1,14 @@
 <template lang="pug">
   div
-    .addHomeworks.text-center
+    .addHomeworks.text-center(v-if="userType === 'teacher'")
       router-link.new-link(to="/addHomework") 
         i.fa.fa-plus-circle 
         span.text-element  Add new homework
+    .addHomeworks.text-center(v-if="userType === 'student'")
+     router-link.new-link(to="/enrol") 
+        i.fa.fa-plus-circle 
+        span.text-element  Enrol to homework
+      
     #showFiles(v-if="homeworksVector.length")
       .col-md-8.offset-md-2
         .input-group.col-md-12
@@ -50,7 +55,9 @@ export default {
       loaded: false,
       userId: "",
       searchedWord: "",
-      searchedList: []
+      searchedList: [],
+      userType: '',
+      homeworkId: ''
     };
   },
   computed: {
@@ -64,7 +71,7 @@ export default {
     }
   },
   methods: {
-    goToAssigment: function(homeworId){
+    goToAssigment: function(homeworId) {
       var route = '/assigment/' + homeworId; 
       this.$router.push(route);
     },
@@ -81,6 +88,7 @@ export default {
 
   created: async function() {
     this.userId = window.localStorage.getItem("user");
+    this.userType = window.localStorage.getItem("type");
     try {
       //get first 20 itemsl.
       const response = await this.http.get(
@@ -125,7 +133,7 @@ export default {
       oldPageNumber: number
     ) {
       const homeworks =
-        "/teacher/" + this.userId + "/homeworks/page/" + newPageNumber;
+        "/homework/" + this.userId + "/page/" + newPageNumber;
       const response = await this.http.get(homeworks);
 
       this.homeworksVector = [];

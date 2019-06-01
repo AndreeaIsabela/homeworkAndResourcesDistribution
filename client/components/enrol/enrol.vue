@@ -8,19 +8,25 @@
       .form-group.row
         label.col-md-2.offset-md-2.col-form-label(for='username') Name
         .col-md-6
-          input#username.form-control(v-model= "userName" type='text' placeholder='Ex: Jon Doe')
+          input#username.form-control(v-model= "userName" type='text' placeholder='Ex: Jon Doe' required)
+      .form-group.row
+        label.col-md-2.offset-md-2.col-form-label(for='homeworkId') Homework
+        .col-md-6
+          input#homeworkId.form-control(v-model= "homeworkId" type='text' placeholder='Homework id' required)
+          span.text-danger(v-if="showErrorMessage") Your homework id is incorrect
       button.btn.btn-primary.offset-md-2(@click="enrol()") Enrol to homework
 
 </template>
 <script lang="js">
 export default  {
-  props: ["id"],
   data: function() {
     return {
       userId: '',
       userType: '',
       userEmail: '',
-      userName: ''
+      userName: '',
+      homeworkId: '',
+      showErrorMessage: false
     }
   },
   created: async function() {
@@ -36,7 +42,7 @@ export default  {
   },
   methods: {
     enrol: async function () {
-    const url = "/homework/" + this.id + "/addStudent";
+    const url = "/homework/" + this.homeworkId + "/addStudent";
       try{
       const response = await this.http.post(url, {
         userId: this.userId,
@@ -45,6 +51,7 @@ export default  {
       });
       this.$router.push("/homework");
       } catch(error) {
+        this.showErrorMessage = true;
         console.log(error);
       }
     }

@@ -11,13 +11,19 @@ export class HomeworkController {
     return await this.model.find({ tacher: teacherId });
   }
 
-  async getTotaNrOfLinks(teacherId) {
-    const teacher = await this.model.find({ teacher: teacherId });
-    return teacher.length;
+  async getTotaNrOfLinks(userId) {
+    var user = await this.model.find({ teacher: userId });
+    if(!user.length){
+      user = await this.model.find({ 'students.userId': userId });
+    }
+    return user.length;
   }
 
-  async getPageLinks(query, teacherId) {
-    const homework = await this.model.find({ teacher: teacherId });
+  async getPageLinks(query, userId) {
+    var homework = await this.model.find({ teacher: userId });
+    if(!homework.length){
+      homework = await this.model.find({ 'students.userId': userId });
+    }
     const array = homework.slice(query.skip, query.limit);
     return array.reverse();
   }
