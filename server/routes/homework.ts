@@ -61,6 +61,18 @@ homeworkRoutes.get('/assigment/:id', async (req, res) => {
   }
 });
 
+homeworkRoutes.get('/students/:id', jwtService.teacherAuthentication, async (req, res) => {
+  try {
+    const students = await homeworkController.getStudents(req.params.id);
+    console.log(students)
+    res.json(students);
+  }
+  catch (err) {
+    console.error(err);
+    return res.status(500).end();
+  }
+});
+
 homeworkRoutes.post('/', async (req, res) => {
   try {
     await homeworkController.addHomework(req.body);

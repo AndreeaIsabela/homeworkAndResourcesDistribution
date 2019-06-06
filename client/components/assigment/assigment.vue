@@ -11,6 +11,7 @@
           p.lead
             | Group: {{assigment.group}}
             button.btn.btn-primary(v-if="userType === 'student'" @click="addHomework()") Upload homework
+            button.offset-md-3.btn.btn-primary(type="button" v-if="userType === 'teacher'" @click="goToSolutions()") Solutions
           hr
           // Date/Time
           p Posted on: {{assigment.date}}
@@ -43,16 +44,14 @@
     footer.py-5.bg-dark
       .container
         p.m-0.text-center.text-white Copyright &copy; Uploader 2019
-
 </template>
-<script lang="ts">
+
+<script lang="js">
 import * as moment from "moment";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import axios from "axios";
 Vue.prototype.http = axios;
-
 var http = Vue.prototype.http;
-
 export default {
   props: ["id"],
   data: function() {
@@ -79,6 +78,10 @@ export default {
     }
   },
   methods: {
+    goToSolutions: function () {
+      const url = "/solutions/" + this.id;
+      this.$router.push(url);
+    },
     addHomework: function() {
       const url = "/upload/" + this.id;
       this.$router.push(url);

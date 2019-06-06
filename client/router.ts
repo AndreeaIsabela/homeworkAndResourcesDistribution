@@ -8,6 +8,7 @@ import assigment from './components/assigment/assigment.vue'
 import enrol from './components/enrol/enrol.vue'
 import upload from './components/upload/upload.vue'
 import home from './components/home/home.vue'
+import solutions from './components/solutions/solutions.vue'
 import VueRouter from "vue-router";
 
 
@@ -53,6 +54,11 @@ const Router = new VueRouter({
     {
       path: '/upload/:id',
       component: upload,
+      props: true
+    },
+    {
+      path: '/solutions/:id',
+      component: solutions,
       props: true
     },
     // {

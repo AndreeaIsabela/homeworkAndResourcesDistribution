@@ -27,8 +27,14 @@ export class HomeworkController {
     const array = homework.slice(query.skip, query.limit);
     return array.reverse();
   }
+
   async getHomeworkById(id) {
     return await this.model.findById(id);
+  }
+
+  async getStudents(id) {
+    const homework =  await this.model.findById(id);
+    return homework.students;
   }
 
   async addHomework(homework) {

@@ -6,7 +6,8 @@ export interface IHomeworkModel extends Document { };
 export const homeworkSchema: Schema = new Schema({
   teacher: { required: true, type: ObjectId },
   group: { required: true, type: String },
-  students: { type: [{userId: ObjectId, userEmail: String, userName: String }] },
+  students: { type: [{userId: ObjectId, userEmail: String, userName: String,
+             filePath: String,updateDate: String }] },
   title: { required: true, type: String },
   date: { required: true, type: String },
   expirationDate: { type: String },

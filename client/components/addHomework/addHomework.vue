@@ -25,12 +25,12 @@
       
 </template>
 
-<script lang="ts">
+<script lang="js">
 import * as moment from "moment";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import axios from "axios";
 Vue.prototype.http = axios;
-var http: any = Vue.prototype.http;
+var http = Vue.prototype.http;
 
 export default {
   data: function() {

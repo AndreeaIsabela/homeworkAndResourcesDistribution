@@ -34,15 +34,14 @@
           h6.font-weight-bold.text-center No new homeworks were added.
 </template>
 
-<script lang="ts">
+<script lang="js">
 import * as moment from "moment";
+import bPagination from "bootstrap-vue/es/components/pagination/pagination";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import axios from "axios";
 Vue.prototype.http = axios;
-import bPagination from "bootstrap-vue/es/components/pagination/pagination";
-
+var http = Vue.prototype.http;
 Vue.component("b-pagination", bPagination);
-var http: any = Vue.prototype.http;
 
 export default {
   data: function() {
@@ -126,12 +125,8 @@ export default {
       console.log(err);
     }
   },
-
   watch: {
-    onPropertyChanged: async function(
-      newPageNumber: number,
-      oldPageNumber: number
-    ) {
+    onPropertyChanged: async function(newPageNumber, oldPageNumber) {
       const homeworks =
         "/homework/" + this.userId + "/page/" + newPageNumber;
       const response = await this.http.get(homeworks);
