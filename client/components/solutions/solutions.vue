@@ -21,9 +21,11 @@
               td.font-weight-bold.default.text-muted(v-else) Download
               td.font-weight-bold.default.text-muted Grade
               <!-- button.btn.btn-danger(v-on:click="onDelete(solution._id, index)") Delete -->
-    .show-files(v-else-if="this.loaded && !solutionVector.length")
-          img.img-fluid(src="images/svg/spotListEmpty.svg")
+    .show-files.text-center.offset-md-5(v-else-if="this.loaded && !solutionVector.length")
+          img.img-fluid(src="https://es.seaicons.com/wp-content/uploads/2015/11/note-icon.png")
           h6.font-weight-bold.text-center No new solutions were added.
+
+
 </template>
 
 <script lang="js">

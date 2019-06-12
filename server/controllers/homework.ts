@@ -1,4 +1,7 @@
 var mongoose = require('mongoose');
+import * as mkdirp from 'mkdirp';
+import * as fs from 'fs';
+import { Stream, Readable } from 'stream';
 
 var ObjectId = mongoose.Types.ObjectId;
 export class HomeworkController {
@@ -53,17 +56,59 @@ export class HomeworkController {
 
   async addStudentToHomework(homeworkId, student) {
     const homework: any = await this.model.findById(homeworkId);
+    student.id = new ObjectId(student.id)
     homework.students.push(student);
     return await homework.save();
   }
 
   async updateHomework(id, homework) {
     const updatedHomework: any = new this.model(await this.model.findOneAndUpdate({ _id: id }, homework, { new: true }));
-    return updatedHomework.save();
+    return await updatedHomework.save();
   }
 
   async deleteHomework(teacherId, homeworkId) {
     return await this.model.findOneAndRemove({ teacher: teacherId, _id: homeworkId });
   }
 
+  async save(file, params): Promise<String> {
+    const tmp_path = file.path;
+    const target_path = 'files/' + params.userId + '/';
+    const savingPath = target_path + file.originalname;
+    //get file extension
+    this.checkExtension(file.originalname);
+
+    //creates a new file with the specified path
+    mkdirp('client/' + target_path, (err, res) => {
+      if (err) {
+        throw 'No can do';
+      }
+      //copy the file from uploads and put in in target path
+      const src = fs.createReadStream(tmp_path);
+      const dest = fs.createWriteStream('client/' + savingPath);
+      src.pipe(dest);
+    });
+    return savingPath;
+  }
+  async download(fileId) {
+    let f = await this.getLink(fileId);
+    return fs.createReadStream('../../client/files' + fileId + f.filePath);
+  }
+
+  checkExtension(fname) {
+    const extension = fname.slice((fname.lastIndexOf('.') - 1 >>> 0) + 2);
+    if (extension !== 'zip' && extension !== 'rar' && extension !== '7z') {
+      throw 'No can do';
+    }
+  }
+
+  async updateLink(userId, updateDate, filePath) {
+    //var resp =  await this.model.find({ 'students.userId': userId });
+    var resp =  new this.model(await this.model.findOneAndUpdate({'students.userId': userId }, {updateDate: updateDate, filePath: filePath }, { new: true }));
+    console.log(resp);
+    return resp;
+  }
+
+  async getLink(id) {
+    return await this.model.findOne({ 'students.userId': id });
+  }
 }

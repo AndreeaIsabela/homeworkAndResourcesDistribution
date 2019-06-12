@@ -9,11 +9,22 @@ var ObjectId = mongoose.Schema.ObjectId;
 export interface ITeacherModel extends ITeacher, Document { };
 
 export const teacherSchema: Schema = new Schema({
-  email: { required: true, type: String },
+  email: {
+    type: String,
+    validate: {
+      validator: function (email) {
+        const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const gmailReg = /^(.+?)\++(.+?)@gmail.com/;
+        return emailReg.test(email) || gmailReg.test(email);
+      },
+      message: 'not a valid email'
+    },
+    required: [true, 'User email required']
+  },
   password: { required: true, type: String },
   username: { required: true, type: String },
   resources: {
-    type: [{ _id: ObjectId , stars: Number, tags: [String], description: String, title: String, link: String, date: String }]
+    type: [{ _id: ObjectId, stars: Number, tags: [String], description: String, title: String, link: String, date: String }]
   }
 });
 

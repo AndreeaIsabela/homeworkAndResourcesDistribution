@@ -4,6 +4,8 @@ import { HomeworkController } from "../controllers/homework";
 import { HomeworkModel as HomeworkModel } from "../models/homework";
 
 const jwtService = require('../middleware/authenticationMiddleware');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 // injecting the homework model in the controller instance
 const homeworkController = new HomeworkController(HomeworkModel);
@@ -119,5 +121,48 @@ homeworkRoutes.delete('/:teacherId/:homeworkId', jwtService.teacherAuthenticatio
     res.status(500).end();
   }
 });
+
+homeworkRoutes.post('/upload/:homeworkId/:userId',
+  upload.single('file'),
+  async (req, res) => {
+    try {
+      let updateDate = req.body.updateDate;
+      let filePath = req.body.filePath
+      if (req.file) {
+        filePath = await homeworkController.save(req.file, req.params);
+      }
+      //update filePath and update date
+      const updatedLink = await homeworkController.updateLink(req.params.userId, updateDate, filePath);
+      res.json(updatedLink);
+    } catch (err) {
+      if (err == 'No can do')
+        return res.status(400).end();
+      console.log(err);
+      res.status(500).end();
+    }
+  });
+
+homeworkRoutes.get('/download/:fileId', jwtService.teacherAuthentication, async (req, res) => {
+  try {
+    var fileId = req.params.fileId;
+
+    res.attachment(fileId);
+    var fileStream = await homeworkController.download(fileId);
+    fileStream.pipe(res);
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+homeworkRoutes.put('/:userId', async (req, res) => {
+  try {
+    const updatedLink = await homeworkController.updateLink(req.params.userId, req.body.updateDate, req.body.filePath);
+    res.json(updatedLink);
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
 
 module.exports = homeworkRoutes;
