@@ -3,7 +3,7 @@
     .container
       router-link.navbar-brand(to="/home")
         img(src="https://image.flaticon.com/icons/svg/167/167756.svg")
-        span Uploader
+        span EdReHo
     
       .justify-content-between(v-if="loggedin")
         //- router-link.nav-item.resources(to="/resources")

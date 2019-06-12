@@ -96,7 +96,7 @@ export default {
         const comment = this.newComment
         const url = "/homework/" + this.id + "/comment ";
         const resp = await this.http.post(url, {
-          userEmail: response.data.email,
+          userEmail: response.data.userName,
           userId: this.userId,
           text: this.newComment.text,
           date: moment().format("D MMMM YYYY")
