@@ -56,7 +56,9 @@ export class HomeworkController {
 
   async addStudentToHomework(homeworkId, student) {
     const homework: any = await this.model.findById(homeworkId);
-    student.id = new ObjectId(student.id)
+    student.id = new ObjectId(student.id);
+    student.filePath = '';
+    student.updateDate = '';
     homework.students.push(student);
     return await homework.save();
   }
@@ -90,8 +92,14 @@ export class HomeworkController {
     return savingPath;
   }
   async download(fileId) {
+    try{
     let f = await this.getLink(fileId);
-    return fs.createReadStream('../../client/files' + fileId + f.filePath);
+    let resolve = require('path').resolve;
+    let abs = resolve('./client/' + f.filePath);
+    return await fs.createReadStream(abs);
+    } catch(error){
+      console.log(error);
+    }
   }
 
   checkExtension(fname) {
@@ -103,12 +111,16 @@ export class HomeworkController {
 
   async updateLink(userId, updateDate, filePath) {
     //var resp =  await this.model.find({ 'students.userId': userId });
-    var resp =  new this.model(await this.model.findOneAndUpdate({'students.userId': userId }, {updateDate: updateDate, filePath: filePath }, { new: true }));
+    var resp =  await this.model.updateOne({'students.userId': userId },{
+      $set: {'students.$.updateDate': updateDate, 'students.$.filePath': filePath }}, { new: true });
     console.log(resp);
     return resp;
   }
 
   async getLink(id) {
-    return await this.model.findOne({ 'students.userId': id });
+    const linkList = await this.model.findOne({ 'students.userId': { $eq: ObjectId(id) } }, {students: 1}) ;
+    const students = linkList.students;
+
+    return students[0];
   }
 }

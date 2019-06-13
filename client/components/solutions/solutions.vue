@@ -17,10 +17,10 @@
               td(v-if="solution.filePath") {{solution.updateDate}}
               td.text-muted(v-else) -
               td.font-weight-bold.default(v-if="solution.filePath")
-                a#download-file(href="#" v-on:click="download(solution._id)") Download 
+                a#download-file(href="#" v-on:click="download(solution.userId, solution.filePath)") Download 
               td.font-weight-bold.default.text-muted(v-else) Download
               td.font-weight-bold.default.text-muted Grade
-              <!-- button.btn.btn-danger(v-on:click="onDelete(solution._id, index)") Delete -->
+              <!-- button.btn.btn-danger(v-on:click="onDelete(solution.userId, index)") Delete -->
     .show-files.text-center.offset-md-5(v-else-if="this.loaded && !solutionVector.length")
           img.img-fluid(src="https://es.seaicons.com/wp-content/uploads/2015/11/note-icon.png")
           h6.font-weight-bold.text-center No new solutions were added.
@@ -55,10 +55,39 @@ export default  {
    },
 
  methods: {
-  download: async function(id) {
-    const solution = 'solution/download/' + id;
-    const response = await this.http.get(solution); 
-  }
+  // saveByteArray: function (reportName, byte) {
+  //   var blob = new Blob([byte], {type: "application/zip"});
+  //   var link = document.createElement('a');
+  //   link.href = window.URL.createObjectURL(blob);
+  //   var fileName = reportName;
+  //   link.download = fileName;
+  //   link.click();
+  // },
+  download: async function(id, filePath) {
+    try{
+      const solution = 'homework/download/' + id;
+      console.log(solution);
+    
+      const response = await this.http({ url: solution, method: 'GET', responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+
+      link.href = url;
+
+      const contentHeader = response.headers['content-disposition'];
+      const match = new RegExp('=(.*)$').exec(contentHeader);
+      const fileName = filePath.split('/')[2];
+
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+
+      // this.saveByteArray(response.data.filePath,response);
+    } catch(err) {
+      console.log(err);
+    }
+  },
+
  },
 }
 </script>

@@ -142,13 +142,15 @@ homeworkRoutes.post('/upload/:homeworkId/:userId',
     }
   });
 
-homeworkRoutes.get('/download/:fileId', jwtService.teacherAuthentication, async (req, res) => {
+homeworkRoutes.get('/download/:fileId', async (req, res) => {
   try {
     var fileId = req.params.fileId;
 
     res.attachment(fileId);
     var fileStream = await homeworkController.download(fileId);
+    console.log(fileStream);
     fileStream.pipe(res);
+    console.log(res);
   } catch (err) {
     res.status(500).end();
   }
