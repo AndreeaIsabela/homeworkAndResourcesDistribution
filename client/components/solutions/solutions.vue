@@ -19,7 +19,10 @@
               td.font-weight-bold.default(v-if="solution.filePath")
                 a#download-file(href="#" v-on:click="download(solution.userId, solution.filePath)") Download 
               td.font-weight-bold.default.text-muted(v-else) Download
-              td.font-weight-bold.default.text-muted Grade
+              td.font-weight-bold.default.text-muted(v-if="!solution.filePath") Grade
+              td
+                button.btn.btn-primary(v-if="solution.filePath && !solution.grade" v-on:click="gradeHomework(solution.userId)") Grade
+              td.font-weight-bold.default(v-if="solution.filePath && solution.grade") {{solution.grade}}
               <!-- button.btn.btn-danger(v-on:click="onDelete(solution.userId, index)") Delete -->
     .show-files.text-center.offset-md-5(v-else-if="this.loaded && !solutionVector.length")
           img.img-fluid(src="https://es.seaicons.com/wp-content/uploads/2015/11/note-icon.png")
@@ -55,14 +58,10 @@ export default  {
    },
 
  methods: {
-  // saveByteArray: function (reportName, byte) {
-  //   var blob = new Blob([byte], {type: "application/zip"});
-  //   var link = document.createElement('a');
-  //   link.href = window.URL.createObjectURL(blob);
-  //   var fileName = reportName;
-  //   link.download = fileName;
-  //   link.click();
-  // },
+  gradeHomework: function(studentId) {
+    this.$router.push("/grade/" + studentId + '/' + this.id);
+  },
+
   download: async function(id, filePath) {
     try{
       const solution = 'homework/download/' + id;
@@ -81,8 +80,6 @@ export default  {
       link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
-
-      // this.saveByteArray(response.data.filePath,response);
     } catch(err) {
       console.log(err);
     }

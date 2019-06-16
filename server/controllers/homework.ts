@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 import * as mkdirp from 'mkdirp';
 import * as fs from 'fs';
 import { Stream, Readable } from 'stream';
+var nodemailer = require("nodemailer");
 
 var ObjectId = mongoose.Types.ObjectId;
 export class HomeworkController {
@@ -59,6 +60,8 @@ export class HomeworkController {
     student.id = new ObjectId(student.id);
     student.filePath = '';
     student.updateDate = '';
+    student.grade = 0;
+    student.observations = '';
     homework.students.push(student);
     return await homework.save();
   }
@@ -114,6 +117,43 @@ export class HomeworkController {
     var resp =  await this.model.updateOne({'students.userId': userId },{
       $set: {'students.$.updateDate': updateDate, 'students.$.filePath': filePath }}, { new: true });
     console.log(resp);
+    return resp;
+  }
+
+  async gradeSolution(userId, grade, observations, homeworkId) {
+    //var resp =  await this.model.find({ 'students.userId': userId });
+    var resp =  await this.model.updateOne({'students.userId': userId },{
+      $set: {'students.$.grade': grade, 'students.$.observations': observations }}, { new: true });
+    const homework = await this.model.findById(homeworkId);
+    const student = await this.model.findOne({ 'students.userId': { $eq: ObjectId(userId) } }, {students: 1}) ;
+    const studentEmail = {
+      subject: 'Grade for ' + homework.title,
+      grade: 'Your grade is: ' + student.students[0].grade,
+      email: student.students[0].userEmail,
+      observations: 'Observations: ' + student.students[0].observations
+    }
+    console.log(resp);
+
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+             user: 'edreho@gmail.com',
+             pass: 'qwert12345ASD!@#'
+         }
+     });
+
+    let info = await transporter.sendMail({
+      from: 'edreho96@gmail.com', // sender address
+      to: studentEmail.email, // list of receivers
+      subject: studentEmail.subject, // Subject line
+      text: studentEmail.grade + "\n" + studentEmail.observations // plain text body
+    });
+
+    var url  = nodemailer.getTestMessageUrl(info)
+
+    console.log("sent email info -----  " + info);
+
     return resp;
   }
 

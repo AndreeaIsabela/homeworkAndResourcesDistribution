@@ -166,5 +166,15 @@ homeworkRoutes.put('/:userId', async (req, res) => {
   }
 });
 
+homeworkRoutes.put('/grade/:userId', async (req, res) => {
+  try {
+    const solutionGrade = await homeworkController.gradeSolution(req.params.userId, req.body.grade, req.body.observations, req.body.homeworkId);
+    res.json(solutionGrade);
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
 
 module.exports = homeworkRoutes;

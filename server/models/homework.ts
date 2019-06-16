@@ -9,7 +9,8 @@ export const homeworkSchema: Schema = new Schema({
   students: {
     type: [{
       userId: ObjectId, userEmail: String, userName: String,
-      filePath: String, updateDate: String
+      filePath: String, updateDate: String, grade: Number,
+      observations: String
     }]
   },
   title: { required: true, type: String },

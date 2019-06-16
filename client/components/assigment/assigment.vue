@@ -91,21 +91,21 @@ export default {
         const response = await this.http.get(
           "/" + this.userType + "/" + this.userId
         );
-        this.newComment.userEmail = response.data.email;
+        this.newComment.userEmail = response.data.username;
         this.newComment.date = moment().format("D MMMM YYYY");
-        const comment = this.newComment
+        const comment = this.newComment;
         const url = "/homework/" + this.id + "/comment ";
         const resp = await this.http.post(url, {
-          userEmail: response.data.userName,
+          userEmail: response.data.username,
           userId: this.userId,
           text: this.newComment.text,
           date: moment().format("D MMMM YYYY")
         });
         this.assigment.comments.push(comment);
-        this.newComment.text = '';
       } catch (err) {
         console.log(err);
       }
+      this.newComment.text = '';
     }
   }
 };
