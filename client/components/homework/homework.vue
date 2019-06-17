@@ -120,7 +120,6 @@ export default {
         });
       }
       this.loaded = true;
-      console.log(this.homeworksVector);
     } catch (err) {
       console.log(err);
     }

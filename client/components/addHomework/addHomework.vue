@@ -54,15 +54,12 @@ export default {
   },
   watch: {
     item: function (newValue, old) {
-      console.log('item selectat -  ', newValue);
-      console.log('resource list- ', this.resourcesList);
       this.addResource(this.resourcesList[newValue.value]);
 
     },
   },
   methods: {
     addResource: function(resource) {
-      console.log('Add resources - ', resource);
       this.newHomework.resources.push(resource);
     },
     addHomework: async function() {
@@ -108,7 +105,6 @@ export default {
           text: this.resourcesList[i].title + '; stars-' +  this.resourcesList[i].stars
         })
       }
-      console.log('options ', this.options);
     } catch (err) {
       console.log(err);
     }

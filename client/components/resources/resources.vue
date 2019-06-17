@@ -114,7 +114,6 @@ export default {
         });
       }
       this.loaded = true;
-      console.log(this.resourcesVector);
     } catch (err) {
       console.log(err);
     }

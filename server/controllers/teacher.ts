@@ -38,7 +38,6 @@ export class TeacherController {
   }
 
   async addTeacher(teacher) {
-    console.log(teacher);
     const newTeacher: any = new this.model(teacher);
     return await newTeacher.save();
   }
@@ -65,7 +64,6 @@ export class TeacherController {
       return x._id;
     }).indexOf(resourceId);
     teacher.resources.splice(index, 1);
-    console.log(teacher.resources);
     return await teacher.save();
   }
 

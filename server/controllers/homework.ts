@@ -42,7 +42,6 @@ export class HomeworkController {
   }
 
   async addHomework(homework) {
-    console.log(homework);
     const newHomework: any = new this.model(homework);
     newHomework.teacher = new ObjectId(homework.teacher);
     return await newHomework.save();
@@ -113,15 +112,12 @@ export class HomeworkController {
   }
 
   async updateLink(userId, updateDate, filePath) {
-    //var resp =  await this.model.find({ 'students.userId': userId });
     var resp =  await this.model.updateOne({'students.userId': userId },{
       $set: {'students.$.updateDate': updateDate, 'students.$.filePath': filePath }}, { new: true });
-    console.log(resp);
     return resp;
   }
 
   async gradeSolution(userId, grade, observations, homeworkId) {
-    //var resp =  await this.model.find({ 'students.userId': userId });
     var resp =  await this.model.updateOne({'students.userId': userId },{
       $set: {'students.$.grade': grade, 'students.$.observations': observations }}, { new: true });
     const homework = await this.model.findById(homeworkId);
@@ -132,8 +128,6 @@ export class HomeworkController {
       email: student.students[0].userEmail,
       observations: 'Observations: ' + student.students[0].observations
     }
-    console.log(resp);
-
 
     var transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -150,10 +144,7 @@ export class HomeworkController {
       text: studentEmail.grade + "\n" + studentEmail.observations // plain text body
     });
 
-    var url  = nodemailer.getTestMessageUrl(info)
-
-    console.log("sent email info -----  " + info);
-
+    var url  = nodemailer.getTestMessageUrl(info);
     return resp;
   }
 

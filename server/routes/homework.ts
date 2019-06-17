@@ -52,9 +52,7 @@ homeworkRoutes.get('/:userId/page/:page', async (req, res) => {
 
 homeworkRoutes.get('/assigment/:id', async (req, res) => {
   try {
-    console.log(req.params.id);
     const homework = await homeworkController.getHomeworkById(req.params.id);
-    console.log(homework)
     res.json(homework);
   }
   catch (err) {
@@ -66,7 +64,6 @@ homeworkRoutes.get('/assigment/:id', async (req, res) => {
 homeworkRoutes.get('/students/:id', jwtService.teacherAuthentication, async (req, res) => {
   try {
     const students = await homeworkController.getStudents(req.params.id);
-    console.log(students)
     res.json(students);
   }
   catch (err) {
@@ -148,9 +145,7 @@ homeworkRoutes.get('/download/:fileId', async (req, res) => {
 
     res.attachment(fileId);
     var fileStream = await homeworkController.download(fileId);
-    console.log(fileStream);
     fileStream.pipe(res);
-    console.log(res);
   } catch (err) {
     res.status(500).end();
   }

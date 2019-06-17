@@ -50,7 +50,6 @@ export default  {
      try {
       const response = await this.http.get("/homework/students/" + this.id);
       this.solutionVector = response.data;
-       console.log(response);
       this.loaded = true;
     } catch (err) {
       console.log(err);
@@ -65,7 +64,6 @@ export default  {
   download: async function(id, filePath) {
     try{
       const solution = 'homework/download/' + id;
-      console.log(solution);
     
       const response = await this.http({ url: solution, method: 'GET', responseType: 'blob' });
       const url = window.URL.createObjectURL(new Blob([response.data]));

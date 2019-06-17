@@ -25,7 +25,6 @@ export class StudentController {
 
   async addStudent(student) {
     const newStudent: any = new this.model(student);
-    console.log(await newStudent.save());
     return await newStudent.save();
   }
 
@@ -65,7 +64,6 @@ export class StudentController {
       return x._id;
     }).indexOf(resourceId);
     student.resources.splice(index, 1);
-    console.log(student.resources);
     return await student.save();
   }
 }

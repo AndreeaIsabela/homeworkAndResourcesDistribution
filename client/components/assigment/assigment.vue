@@ -79,7 +79,6 @@ export default {
       this.assigment.expirationDate = moment(
         this.assigment.expirationDate
       ).format("D MMMM YYYY");
-      console.log(this.assigment);
     } catch (err) {
       console.log(err);
     }

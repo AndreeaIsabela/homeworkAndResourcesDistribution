@@ -14,7 +14,6 @@ teacherRoutes.post('/login', async (req, res) => {
 
     if (teacher.comparePassword(req.body.password) === true) {
       const teacherJson = teacher.toJSON();
-      console.log(teacherJson._id);
       res.send({
         user: teacherJson,
         token: teacherController.jwtSignUser(teacherJson),
