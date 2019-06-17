@@ -59,16 +59,20 @@ export default {
       this.newResource.tags.push(this.tag);
     },
     addResource: async function() {
-      const url = "/" + this.userType + "/" + this.userId + "/resources/";
-      const response = await this.http.post(url, {
-        title: this.newResource.title,
-        description: this.newResource.description,
-        link: this.newResource.link,
-        stars: this.newResource.stars,
-        tags: this.newResource.tags,
-        date: moment()
-      });
-      window.setTimeout(()=>{this.$router.push("/resources");}, 300);
+      try {
+        const url = "/" + this.userType + "/" + this.userId + "/resources/";
+        const response = await this.http.post(url, {
+          title: this.newResource.title,
+          description: this.newResource.description,
+          link: this.newResource.link,
+          stars: this.newResource.stars,
+          tags: this.newResource.tags,
+          date: moment()
+        });
+      } catch(err) {
+        console.log(err);
+      }
+      this.$router.push("/resources");
     }
   },
 

@@ -17,7 +17,7 @@ export const homeworkSchema: Schema = new Schema({
   date: { required: true, type: String },
   expirationDate: { type: String },
   requirement: { required: true, type: String },
-  resources: { type: [String] },
+  resources: { type: [{ _id: ObjectId, stars: Number, tags: [String], description: String, title: String, link: String, date: String }] },
   comments: { type: [{ _id: ObjectId, userEmail: String, userId: ObjectId, text: String, date: String }] }
 });
 

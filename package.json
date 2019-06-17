@@ -45,6 +45,7 @@
     "vue-clip": "^1.0.0",
     "vue-clipboard2": "^0.2.0",
     "vue-router": "^3.0.1",
+    "vue-search-select": "^2.8.3",
     "vue2-dropzone": "^3.2.2",
     "vuejs-paginate": "^2.0.1"
   },

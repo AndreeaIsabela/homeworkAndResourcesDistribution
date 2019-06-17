@@ -20,9 +20,16 @@
           // Post Content
           p Requirement: 
           p {{assigment.requirement}}
-          p Resources:
-          p(v-for="(resource, index) in assigment.resources" v-bind:key="index")
-            a(v-bind:href="'' + resource") {{resource}}
+          p Teacher resources:
+          div.row
+            div.card.mb-3.col-sm-12(v-for="(resource,index) in assigment.resources" v-bind:key="index")
+              .card-body
+                h5.card-title Title: {{resource.title}}
+                p.card-text Link:
+                  a(v-bind:href="resource.link") {{resource.link}}
+                p.card-text Description: {{resource.description}}
+                  span {{resource.stars}} 
+                  span.fa.fa-2x.fa-star 
           hr
           // Comments Form
           .card.my-4
