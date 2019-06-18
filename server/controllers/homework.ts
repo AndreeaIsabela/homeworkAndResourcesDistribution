@@ -70,6 +70,12 @@ export class HomeworkController {
     return await updatedHomework.save();
   }
 
+  async addStudentResources(id, resource) {
+    const homework: any = await this.model.findById(id);
+    homework.studentResources.push(resource);
+    return await homework.save();
+  }
+
   async deleteHomework(teacherId, homeworkId) {
     return await this.model.findOneAndRemove({ teacher: teacherId, _id: homeworkId });
   }

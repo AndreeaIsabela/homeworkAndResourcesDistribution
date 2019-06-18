@@ -109,6 +109,16 @@ homeworkRoutes.put('/:id', jwtService.teacherAuthentication, async (req, res) =>
   }
 });
 
+homeworkRoutes.put('/add/resources/:homeworkId', async (req, res) => {
+  try {
+    await homeworkController.addStudentResources(req.params.homeworkId, req.body);
+    res.status(204).end();
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
+});
+
 homeworkRoutes.delete('/:teacherId/:homeworkId', jwtService.teacherAuthentication, async (req, res) => {
   try {
     await homeworkController.deleteHomework(req.params.teacherId, req.params.homeworkId);

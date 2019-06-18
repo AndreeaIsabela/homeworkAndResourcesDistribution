@@ -16,7 +16,6 @@ export const studentSchema: Schema = new Schema({
         const gmailReg = /^(.+?)\++(.+?)@gmail.com/;
         return emailReg.test(email) || gmailReg.test(email);
       },
-      message: 'not a valid email'
     },
     required: [true, 'User email required']
   },

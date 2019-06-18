@@ -79,15 +79,15 @@ export default {
       }
       this.$router.push("/homework");
     },
-     reset: function () {
-        this.item = {}
-      },
-      selectFromParentComponent1: function () {
-        // select option from parent component
-        this.item = this.options[0];
-        this.addResource(this.item.value)
+    reset: function () {
+      this.item = {}
+    },
+    selectFromParentComponent1: function () {
+      // select option from parent component
+      this.item = this.options[0];
+      this.addResource(this.item.value)
 
-      }
+    }
   },
    components: {
       ModelSelect
@@ -98,7 +98,6 @@ export default {
     try {
       const response = await this.http.get("/teacher/" + this.userId);
       this.resourcesList = response.data.resources;
-      var self = this;
       for(let i = 0; i < this.resourcesList.length; i++) { 
         this.options.push({
           value: i,
