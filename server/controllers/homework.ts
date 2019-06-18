@@ -117,8 +117,8 @@ export class HomeworkController {
     }
   }
 
-  async updateLink(userId, updateDate, filePath) {
-    var resp =  await this.model.updateOne({'students.userId': userId },{
+  async updateLink(userId, updateDate, filePath, homeworkId) {
+    var resp =  await this.model.updateOne({'students.userId': userId, _id: homeworkId },{
       $set: {'students.$.updateDate': updateDate, 'students.$.filePath': filePath }}, { new: true });
     return resp;
   }

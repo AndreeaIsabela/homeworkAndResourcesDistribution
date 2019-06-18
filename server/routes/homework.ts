@@ -139,7 +139,7 @@ homeworkRoutes.post('/upload/:homeworkId/:userId',
         filePath = await homeworkController.save(req.file, req.params);
       }
       //update filePath and update date
-      const updatedLink = await homeworkController.updateLink(req.params.userId, updateDate, filePath);
+      const updatedLink = await homeworkController.updateLink(req.params.userId, updateDate, filePath, req.params.homeworkId);
       res.json(updatedLink);
     } catch (err) {
       if (err == 'No can do')
@@ -163,7 +163,7 @@ homeworkRoutes.get('/download/:fileId', async (req, res) => {
 
 homeworkRoutes.put('/:userId', async (req, res) => {
   try {
-    const updatedLink = await homeworkController.updateLink(req.params.userId, req.body.updateDate, req.body.filePath);
+    const updatedLink = await homeworkController.updateLink(req.params.userId, req.body.updateDate, req.body.filePath, req.body.homeworkId);
     res.json(updatedLink);
   } catch (err) {
     console.log(err);
