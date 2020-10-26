@@ -1,8 +1,10 @@
-import { HomeworkController } from "../controllers/homework";
-import { HomeworkModel as HomeworkModel } from "../models/homework";
+import { HomeworkController } from '../controllers/homework';
+import { HomeworkModel as HomeworkModel } from '../models/homework';
+import { UploaderController } from '../controllers/uploader';
 
 // injecting the homework model in the controller instance
 const homeworkController = new HomeworkController(HomeworkModel);
+const uploaderController = new UploaderController(HomeworkModel);
 
 export class HomeworkRoutes {
 
@@ -35,7 +37,7 @@ export class HomeworkRoutes {
       const size = 20;
       var query: any = {};
       if (pageNo < 0 || pageNo === 0) {
-        const response = { "error": true, "message": "invalid page number, should start with 1" };
+        const response = { 'error': true, 'message': 'invalid page number, should start with 1' };
         return res.json(response);
       }
       query.skip = size * (pageNo - 1);
@@ -132,10 +134,10 @@ export class HomeworkRoutes {
       let updateDate = req.body.updateDate;
       let filePath = req.body.filePath
       if (req.file) {
-        filePath = await homeworkController.save(req.file, req.params);
+        filePath = await uploaderController.save(req.file, req.params);
       }
       //update filePath and update date
-      const updatedLink = await homeworkController.updateLink(req.params.userId, updateDate, filePath, req.params.homeworkId);
+      const updatedLink = await uploaderController.updateLink(req.params.userId, updateDate, filePath, req.params.homeworkId);
       res.json(updatedLink);
     } catch (err) {
       if (err == 'No can do')
@@ -150,7 +152,7 @@ export class HomeworkRoutes {
       var fileId = req.params.fileId;
 
       res.attachment(fileId);
-      var fileStream = await homeworkController.download(fileId);
+      var fileStream = await uploaderController.download(fileId);
       fileStream.pipe(res);
     } catch (err) {
       res.status(500).end();
@@ -159,7 +161,7 @@ export class HomeworkRoutes {
 
   readonly updateLink = async (req, res, _next) => {
     try {
-      const updatedLink = await homeworkController.updateLink(req.params.userId, req.body.updateDate, req.body.filePath, req.body.homeworkId);
+      const updatedLink = await uploaderController.updateLink(req.params.userId, req.body.updateDate, req.body.filePath, req.body.homeworkId);
       res.json(updatedLink);
     } catch (err) {
       console.log(err);
