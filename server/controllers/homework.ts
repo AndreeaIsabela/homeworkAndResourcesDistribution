@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const nodemailer = require("nodemailer");
+import { MailerController } from './mailer';
 
 const ObjectId = mongoose.Types.ObjectId;
 export class HomeworkController {
@@ -14,7 +14,7 @@ export class HomeworkController {
 
   async getTotaNrOfLinks(userId) {
     let user = await this.model.find({ teacher: userId });
-    if(!user.length){
+    if (!user.length) {
       user = await this.model.find({ 'students.userId': userId });
     }
     return user.length;
@@ -22,7 +22,7 @@ export class HomeworkController {
 
   async getPageLinks(query, userId) {
     let homework = await this.model.find({ teacher: userId });
-    if(!homework.length){
+    if (!homework.length) {
       homework = await this.model.find({ 'students.userId': userId });
     }
     const array = homework.slice(query.skip, query.limit);
@@ -34,7 +34,7 @@ export class HomeworkController {
   }
 
   async getStudents(id) {
-    const homework =  await this.model.findById(id);
+    const homework = await this.model.findById(id);
     return homework.students;
   }
 
@@ -78,10 +78,13 @@ export class HomeworkController {
   }
 
   async gradeSolution(userId, grade, observations, homeworkId) {
-    let resp =  await this.model.updateOne({'students.userId': userId },{
-      $set: {'students.$.grade': grade, 'students.$.observations': observations }}, { new: true });
+    let resp = await this.model.updateOne({ 'students.userId': userId }, {
+      $set: { 'students.$.grade': grade, 'students.$.observations': observations }
+    }, { new: true });
+
     const homework = await this.model.findById(homeworkId);
-    const student = await this.model.findOne({ 'students.userId': { $eq: ObjectId(userId) } }, {students: 1}) ;
+    const student = await this.model.findOne({ 'students.userId': { $eq: ObjectId(userId) } }, { students: 1 });
+    
     const studentEmail = {
       subject: 'Grade for ' + homework.title,
       grade: 'Your grade is: ' + student.students[0].grade,
@@ -89,22 +92,9 @@ export class HomeworkController {
       observations: 'Observations: ' + student.students[0].observations
     }
 
-    let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-             user: 'edreho@gmail.com',
-             pass: 'qwert12345ASD!@#'
-         }
-     });
+    const mailer = new MailerController();
+    mailer.sendEmail(studentEmail);
 
-    let info = await transporter.sendMail({
-      from: 'edreho96@gmail.com', // sender address
-      to: studentEmail.email, // list of receivers
-      subject: studentEmail.subject, // Subject line
-      text: studentEmail.grade + "\n" + studentEmail.observations // plain text body
-    });
-
-    const url  = nodemailer.getTestMessageUrl(info);
     return resp;
   }
 
