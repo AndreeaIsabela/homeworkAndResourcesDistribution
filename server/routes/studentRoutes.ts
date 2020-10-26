@@ -1,8 +1,10 @@
-import { StudentController } from "../controllers/student";
-import { StudentModel as StudentModel } from "../models/student";
+import { StudentController } from '../controllers/student';
+import { StudentModel as StudentModel } from '../models/student';
+import { JsonWebToken } from '../controllers/jsonWebToken';
 
 // injecting the student model in the controller instance
 const studentController = new StudentController(StudentModel);
+const jwtController = new JsonWebToken();
 
 export class StudentRoutes {
 
@@ -16,7 +18,7 @@ export class StudentRoutes {
         const studentJson = student.toJSON();
         res.send({
           user: studentJson,
-          token: studentController.jwtSignUser(studentJson)
+          token: jwtController.jwtSignUser(studentJson, 'student')
         });
         return res.status(200).end();
       }
@@ -64,7 +66,7 @@ export class StudentRoutes {
       const updatedStudentJson: string = updatedStudent.toJSON();
       res.send({
         user: updatedStudentJson,
-        token: studentController.jwtSignUser(updatedStudentJson)
+        token: jwtController.jwtSignUser(updatedStudentJson, 'student')
       });
     } catch (err) {
       console.log(err);
@@ -99,7 +101,7 @@ export class StudentRoutes {
       const size = 20;
       var query: any = {};
       if (pageNo < 0 || pageNo === 0) {
-        const response = { "error": true, "message": "invalid page number, should start with 1" };
+        const response = { 'error': true, 'message': 'invalid page number, should start with 1' };
         return res.json(response);
       }
       query.skip = size * (pageNo - 1);

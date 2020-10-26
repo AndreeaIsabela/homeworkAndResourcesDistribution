@@ -1,18 +1,10 @@
-import * as jwt from "jsonwebtoken";
-import { config } from '../config/config';
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+
 export class StudentController {
   model: any;
   constructor(studentModel) {
     this.model = studentModel;
-  }
-
-  jwtSignUser(user) {
-    const ONE_DAY: number = 60 * 60 * 24;
-    return jwt.sign(user, config.authentication.student.jwtSecret, {
-      expiresIn: ONE_DAY
-    });
   }
 
   async getStudents() {

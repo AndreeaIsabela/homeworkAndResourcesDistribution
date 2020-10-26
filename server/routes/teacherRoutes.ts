@@ -1,8 +1,10 @@
 import { TeacherController } from "../controllers/teacher";
 import { TeacherModel as TeacherModel } from "../models/teacher";
+import { JsonWebToken } from '../controllers/jsonWebToken';
 
 // injecting the teacher model in the controller instance
 const teacherController = new TeacherController(TeacherModel);
+const jwtController = new JsonWebToken();
 
 export class TeacherRoutes {
 
@@ -16,7 +18,7 @@ export class TeacherRoutes {
         const teacherJson = teacher.toJSON();
         res.send({
           user: teacherJson,
-          token: teacherController.jwtSignUser(teacherJson),
+          token: jwtController.jwtSignUser(teacherJson, 'teacher'),
           userId: teacherJson._id
         });
         return res.status(200).end();
@@ -74,7 +76,7 @@ export class TeacherRoutes {
       const updatedTeacherJson: string = updatedTeacher.toJSON();
       res.send({
         user: updatedTeacherJson,
-        token: teacherController.jwtSignUser(updatedTeacherJson)
+        token: jwtController.jwtSignUser(updatedTeacherJson, 'teacher')
       });
     } catch (err) {
       console.log(err);
