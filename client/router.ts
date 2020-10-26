@@ -32,10 +32,6 @@ const Router = new VueRouter({
       component: resources
     },
     {
-      path: '/home',
-      component: home
-    },
-    {
       path: '/addResources',
       component: addResources
     },
@@ -67,11 +63,11 @@ const Router = new VueRouter({
       component: solutions,
       props: true
     },
-    // {
-    //   path: '/generated/:id',
-    //   component: generated,
-    //   props: true
-    // },
+    {
+      path: '/home',
+      component: home,
+      alias: '/'
+    }
   ]
 });
 export default Router

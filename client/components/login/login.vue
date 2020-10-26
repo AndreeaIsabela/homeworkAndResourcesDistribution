@@ -108,8 +108,8 @@ export default  {
         this.http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
         this.$parent.$emit("loggedin", true);
         this.$parent.$emit("" + this.type, true);
+        this.$router.push("/home");
       }
-      this.$router.push("/home");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         this.message = "Invalid password.";
