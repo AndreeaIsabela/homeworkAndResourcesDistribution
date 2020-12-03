@@ -3,7 +3,7 @@ import { MailerController } from './mailer';
 
 const ObjectId = mongoose.Types.ObjectId;
 export class HomeworkController {
-  model: any;
+  model;
   constructor(homeworkModel) {
     this.model = homeworkModel;
   }

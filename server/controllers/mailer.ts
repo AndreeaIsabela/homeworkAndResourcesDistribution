@@ -2,9 +2,9 @@ const nodemailer = require('nodemailer');
 
 export class MailerController {
 
-  constructor() { }
+  constructor () { }
 
-  async sendEmail(emailContent) {
+  async sendEmail (emailContent) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

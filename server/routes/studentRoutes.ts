@@ -14,7 +14,7 @@ export class StudentRoutes {
     try {
       const student = await studentController.getStudent(req.body.email);
 
-      if (student.comparePassword(req.body.password) === true) {
+      if (student && student.comparePassword(req.body.password) === true) {
         const studentJson = student.toJSON();
         res.send({
           user: studentJson,

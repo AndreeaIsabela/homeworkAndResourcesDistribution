@@ -7,7 +7,8 @@
     "build:server": "tsc -p ./tsconfig.json",
     "build:client": "webpack --mode=development",
     "build": "npm run build:server | npm run build:client ",
-    "lint": "eslint ./client ./server",
+    "lint": "eslint ./client/**/* ./server/**/*",
+    "lint:server": "eslint ./server/**/*.ts",
     "nodemon": "nodemon ./build/server/index.js",
     "start": "node ./build/server/index.js"
   },

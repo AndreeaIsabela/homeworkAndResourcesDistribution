@@ -14,7 +14,7 @@ export class TeacherRoutes {
     try {
       const teacher = await teacherController.getTeacher(req.body.email);
 
-      if (teacher.comparePassword(req.body.password) === true) {
+      if (teacher &&  teacher.comparePassword(req.body.password) === true) {
         const teacherJson = teacher.toJSON();
         res.send({
           user: teacherJson,
