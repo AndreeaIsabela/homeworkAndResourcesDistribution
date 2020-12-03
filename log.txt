@@ -1,0 +1,65 @@
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/config/config.ts
+  1:1  error  Definition for rule 'default-case-last' was not found  default-case-last
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/homework.ts
+  6:8  error  Parsing error: Unexpected token ;
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/jsonWebToken.ts
+   1:1  error  Definition for rule 'default-case-last' was not found  default-case-last
+  14:2  error  Newline required at end of file but not found          eol-last
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/mailer.ts
+  1:1  error  Definition for rule 'default-case-last' was not found  default-case-last
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/solution.ts
+  2:8  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/student.ts
+  5:8  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/teacher.ts
+  5:8  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/controllers/uploader.ts
+  8:8  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/middleware/authenticationMiddleware.ts
+  4:28  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/models/homework.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/models/solution.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/models/student.ts
+  4:1  error  Parsing error: The keyword 'interface' is reserved
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/models/teacher.ts
+  5:1  error  Parsing error: The keyword 'interface' is reserved
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/homework.ts
+  5:13  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/homeworkRoutes.ts
+  13:12  error  Parsing error: Unexpected token getTeacherID
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/main.ts
+  7:17  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/student.ts
+  6:13  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/studentRoutes.ts
+  13:12  error  Parsing error: Unexpected token login
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/teacher.ts
+  6:13  error  Parsing error: Unexpected token :
+
+/Users/isabela/Applications/Repos/homeworkAndResourcesDistribution/server/routes/teacherRoutes.ts
+  13:12  error  Parsing error: Unexpected token login
+
+✖ 21 problems (21 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
