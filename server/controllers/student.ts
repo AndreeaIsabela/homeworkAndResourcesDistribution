@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 
 export class StudentController {
-  model: any;
+  private model: any;
   constructor(studentModel) {
     this.model = studentModel;
   }

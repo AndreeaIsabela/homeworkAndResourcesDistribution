@@ -7,7 +7,6 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const homeworkRoutes = new HomeworkRoutes();
 
-
 router.get('/:teacherId', homeworkRoutes.getTeacherID);
 
 router.get('/:userId/totalPages', homeworkRoutes.getNoOfResources);
@@ -37,6 +36,5 @@ router.get('/download/:fileId', homeworkRoutes.downloadStudentHomework);
 router.put('/:userId', homeworkRoutes.updateLink);
 
 router.put('/grade/:userId', homeworkRoutes.gradeStudentSolution);
-
 
 module.exports = router;

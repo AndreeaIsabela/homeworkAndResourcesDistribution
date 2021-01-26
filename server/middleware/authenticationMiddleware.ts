@@ -1,14 +1,14 @@
 import {config} from '../config/config';
 const jwt = require('jsonwebtoken');
 
-const studentAuthentication:any = function (req, res, next) {
+const studentAuthentication = function (req, res, next) {
   try {
     const authorization:any = req.get('authorization');
     const token:any = authorization.split('Bearer ')[1];
 
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
-    jwt.verify(token, config.authentication.student.jwtSecret, function (err, decoded) {
+    jwt.verify(token, config.authentication.student.jwtSecret, function (err) {
       if (err) {
         console.log(err);
         return res.status(403)

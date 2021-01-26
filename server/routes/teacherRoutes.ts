@@ -10,7 +10,7 @@ export class TeacherRoutes {
 
   constructor() { }
 
-  readonly login = async (req, res, _next) => {
+  readonly login = async (req, res, _next) => { // eslint-disable-line
     try {
       const teacher = await teacherController.getTeacher(req.body.email);
 

@@ -20,6 +20,6 @@ export class MailerController {
       text: emailContent.grade + '\n' + emailContent.observations // plain text body
     });
 
-    const url = nodemailer.getTestMessageUrl(info);
+    nodemailer.getTestMessageUrl(info);
   }
 }

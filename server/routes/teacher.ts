@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { TeacherRoutes } from './teacherRoutes';
 
 const jwtService = require('../middleware/authenticationMiddleware');

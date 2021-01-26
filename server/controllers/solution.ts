@@ -1,5 +1,5 @@
 export class SolutionController {
-  model: any;
+  private model: any; // eslint-disable-line
   constructor(solutionModel) {
     this.model = solutionModel;
   }

@@ -5,7 +5,7 @@ import * as fs from 'fs';
 const ObjectId = mongoose.Types.ObjectId;
 
 export class UploaderController {
-  model: any;
+  private model: any;
 
   constructor(homeworkModel) {
     this.model = homeworkModel;

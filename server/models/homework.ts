@@ -1,4 +1,4 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Schema, Model, model } from 'mongoose';
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.ObjectId;
 export interface IHomeworkModel extends Document { };
